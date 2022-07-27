@@ -104,8 +104,6 @@ A hosted web-application (osrs-events) that allows for the following functionali
 
 ### Mockups
 
-*View `README.md` to see how to replace me with mockups.*
-
  ![](/mockups/IMG_0.jpg) 
  ![](/mockups/IMG_1.jpg) 
  ![](/mockups/IMG_2.jpg) 
