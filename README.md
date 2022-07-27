@@ -106,6 +106,6 @@ A hosted web-application (osrs-events) that allows for the following functionali
 
 *View `README.md` to see how to replace me with mockups.*
 
-| ![Benjamin Bannekat](/mockups/github-cat.png) | ![Benjamin Bannekat](/mockups/github-cat.png) |
+| ![Benjamin Bannekat](/mockups/IMG_0143.jpg) | ![Benjamin Bannekat](/mockups/IMG_0144.jpg) |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Benjamin Bannekat](/mockups/github-cat.png) | ![Benjamin Bannekat](/mockups/github-cat.png) |
+| ![Benjamin Bannekat](/mockups/IMG_0145.jpg) | ![Benjamin Bannekat](/mockups/github-cat.png) |
