@@ -104,6 +104,6 @@ A hosted web-application (osrs-events) that allows for the following functionali
 
 ### Mockups
 
- ![](/mockups/IMG_0.jpg) 
- ![](/mockups/IMG_1.jpg) 
- ![](/mockups/IMG_2.jpg) 
+ ![](/mockups/image0.jpg) 
+ ![](/mockups/image1.jpg) 
+ ![](/mockups/image2.jpg) 
