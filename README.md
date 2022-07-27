@@ -89,7 +89,7 @@ A hosted web-application (osrs-events) that allows for the following functionali
 	- Once board is agreed upon, admins agree to start the game, game goes into running phase
 ###### RUNNING
 	- A game dashboard page presents information on the current gamestate to each team, viewable for every player
-	0 Players who are enrolled in the game may click on a tile to claim they have completed it - this brings up a window to support evidence (an attached image)
+	- Players who are enrolled in the game may click on a tile to claim they have completed it - this brings up a window to support evidence (an attached image)
 	- The evidence is sent to the game administrator, who can approve or deny the evidence
 	- Once a claim is approved, game tile is set to marked
 	- First team to five in a row wins
