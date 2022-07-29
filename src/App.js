@@ -6,9 +6,6 @@ import Login from './components/login/Login'
 function App() {
 	return (
 		<div className="App">
-			{/* <header className="App-header">
-				<Counter />
-			</header> */}
 			<Login />
 		</div>
 	)
