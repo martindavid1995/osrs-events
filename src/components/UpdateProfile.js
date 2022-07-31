@@ -24,9 +24,6 @@ export default function UpdateProfile() {
         setLoading(true)
         setError("")
     
-        if (emailRef.current.value !== currentUser.email) {
-          promises.push(updateEmail(auth.currentUser, emailRef.current.value))
-        }
         if (passwordRef.current.value) {
           promises.push(updatePassword(auth.currentUser, passwordRef.current.value))
         }
@@ -50,24 +47,20 @@ export default function UpdateProfile() {
                 <h2 className='text-center mb-4'>Update Profile</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group id="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" ref={emailRef} required defaultValue={currentUser.email}/>
-                    </Form.Group>
                     <Form.Group id="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={passwordRef} placeholder="Leave blank to keep the same password"/>
+                        <Form.Control type="password" ref={passwordRef} required/>
                     </Form.Group>
                     <Form.Group id="password-confirm">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" ref={passwordConfirmRef} placeholder="Leave blank to keep the same password"/>
+                        <Form.Control type="password" ref={passwordConfirmRef} required/>
                     </Form.Group>
-                    <Button disabled={loading} className="w-100" type="submit">Update</Button>
+                    <Button disabled={loading} className="w-50" type="submit" value="update">Update</Button>
                 </Form>
             </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
-            Already have an account? <Link to="/">Cancel</Link>
+            <Link to="/">Back to Profile</Link><br></br>
         </div>
     </>
     )

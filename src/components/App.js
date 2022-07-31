@@ -7,6 +7,7 @@ import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
+import CreateAccount from "./CreateAccount"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 								<Route path="login" element={<Login />} />
 								<Route path="forgot-password" element={<ForgotPassword />} />
 								<Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>}></Route>
+								<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
 							</Routes>
 						</AuthProvider>
 					</Router>
