@@ -10,7 +10,6 @@ export default function Dashboard() {
     const [username, setUsername] = useState(null)
     const [description, setDescription] = useState(null)
 
-    const navigate = useNavigate()
     const auth = getAuth()
     const docRef = doc(db, "users", auth.currentUser.uid)
     
@@ -32,9 +31,10 @@ export default function Dashboard() {
 
 
     if (!username) {
+        console.log("Username must be null")
         return (
-            <div class="text-center">
-                <div class="spinner-border" role="status"></div>
+            <div className="text-center">
+                <div className="spinner-border" role="status"></div>
             </div>
         )
     } else {

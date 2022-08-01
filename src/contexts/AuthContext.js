@@ -39,7 +39,7 @@ export function AuthProvider( {children} ) {
     return updatePassword(getAuth.currentUser, password)
   }
 
-  function createUser(username, info) {
+  function updateUserInformation(username, info) {
     return setDoc(doc(usersCollectionRef, auth.currentUser.uid), {
       user: username,
       description: info,
@@ -66,7 +66,7 @@ export function AuthProvider( {children} ) {
     resetPassword,
     updateEmail,
     updatePassword,
-    createUser
+    updateUserInformation
   }
 
   return (

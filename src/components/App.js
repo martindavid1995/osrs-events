@@ -6,34 +6,35 @@ import Dashboard from "./Dashboard"
 import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
-import UpdateProfile from "./UpdateProfile"
-import CreateAccount from "./CreateAccount"
+import UpdateCredentials from "./UpdateCredentials"
 import Header from "./Header"
+import UpdateAccountInfo from "./UpdateAccountInfo"
+import CreateAccount from "./CreateAccount"
 
 function App() {
-	return (
-		<Container fluid>
-			<AuthProvider><Header /></AuthProvider>
-			<Container className="d-flex align-items-top justify-content-center pt-3"
+return (
+	<AuthProvider>
+		<Router>
+			<Container fluid>
+				<Header />
+					<Container className="d-flex align-items-top justify-content-center pt-3"
 					style={{ minHeight: "100vh" }}>
-				<div className="w-100">
-						<Router>
-							<AuthProvider>
-								<Routes>
-									<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
-									<Route path="register" element={<Signup />} />
-									<Route path="login" element={<Login />} />
-									<Route path="forgot-password" element={<ForgotPassword />} />
-									<Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>}></Route>
-									<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
-								</Routes>
-							</AuthProvider>
-						</Router>
-				</div>
+						<div className="w-100">
+							<Routes>
+								<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+								<Route path="register" element={<Signup />} />
+								<Route path="login" element={<Login />} />
+								<Route path="forgot-password" element={<ForgotPassword />} />
+								<Route path="/update-credentials" element={<PrivateRoute><UpdateCredentials /></PrivateRoute>}></Route>
+								<Route path="/update-account-info" element={<PrivateRoute><UpdateAccountInfo /></PrivateRoute>}></Route>
+								<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
+							</Routes>
+						</div>
+					</Container>
 			</Container>
-		</Container>
-		
-	)
+		</Router>
+	</AuthProvider>
+)
 }
 
 export default App

@@ -35,7 +35,7 @@ export default function Signup() {
 
     return (
     <>
-        <Card>
+        <Card style={{ width: '50%', margin: '0 auto'}}>
             <Card.Body>
                 <h2 className='text-center mb-4'>Register</h2>
                 {error && <Alert variant="danger">{error}</Alert>}

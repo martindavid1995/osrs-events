@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 
-export default function UpdateProfile() {
+export default function UpdateCredentials() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()

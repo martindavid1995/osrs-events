@@ -1,19 +1,38 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Card, Form, Button, Alert} from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 import { collection, addDoc } from "firebase/firestore"
 import { db } from '../firebase'
+import { doc, getDoc } from 'firebase/firestore'
 
-export default function CreateAccount() {
-    const usernameRef = useRef()
-    const aboutRef = useRef()
+export default function UpdateAccountInfo() {
+    const usernameRef = useRef(null)
+    const aboutRef = useRef(null)
     const { updateUserInformation } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const auth = getAuth()
+    const docRef = doc(db, "users", auth.currentUser.uid)
+    const [username, setUsername] = useState(null)
+    const [description, setDescription] = useState(null)
+
+
+    useEffect(() => { 
+        async function fetchData() {
+            const docSnap = await getDoc(docRef)
+
+            if (docSnap.exists()) {
+                setUsername(docSnap.data().user)
+                setDescription(docSnap.data().description)
+            } else {
+                setError("No Query Results Retrieved")
+            }    
+        }
+        fetchData()
+    }, [])
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -35,18 +54,19 @@ export default function CreateAccount() {
     <>
         <Card style={{ width: '50%', margin: '0 auto'}}>
             <Card.Body>
-                <h2 className='text-center mb-4'>Create Account</h2>
+                <h2 className='text-center mb-4'>Update Account Information</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id="username">
                         <Form.Label>Username (RSN)</Form.Label>
-                        <Form.Control type="text" ref={usernameRef} required/>
+                        <Form.Control type="text" ref={usernameRef} defaultValue={username}/>
                     </Form.Group>
                     <Form.Group id="about">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control type="text" ref={aboutRef} placeholder="About Me"/>
+                        <Form.Control type="text" ref={aboutRef} defaultValue={description}/>
                     </Form.Group>
-                    <Button disabled={loading} variant="primary" className="w-100" type="submit">Create Account</Button>   
+                    <Button disabled={loading} variant="primary" className="w-50 text-center" type="submit">Save Account Information</Button>  
+                   
                 </Form>
             </Card.Body>
         </Card>
