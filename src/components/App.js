@@ -8,26 +8,29 @@ import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import CreateAccount from "./CreateAccount"
-
+import Header from "./Header"
 
 function App() {
 	return (
-		<Container className="d-flex align-items-center justify-content-center"
-				   style={{ minHeight: "100vh" }}>
-			<div className="w-100" style={{ maxWidth: '400px' }}>
-					<Router>
-						<AuthProvider>
-							<Routes>
-								<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
-								<Route path="register" element={<Signup />} />
-								<Route path="login" element={<Login />} />
-								<Route path="forgot-password" element={<ForgotPassword />} />
-								<Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>}></Route>
-								<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
-							</Routes>
-						</AuthProvider>
-					</Router>
-			</div>
+		<Container fluid>
+			<AuthProvider><Header /></AuthProvider>
+			<Container className="d-flex align-items-top justify-content-center pt-3"
+					style={{ minHeight: "100vh" }}>
+				<div className="w-100">
+						<Router>
+							<AuthProvider>
+								<Routes>
+									<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+									<Route path="register" element={<Signup />} />
+									<Route path="login" element={<Login />} />
+									<Route path="forgot-password" element={<ForgotPassword />} />
+									<Route path="/update-profile" element={<PrivateRoute><UpdateProfile /></PrivateRoute>}></Route>
+									<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
+								</Routes>
+							</AuthProvider>
+						</Router>
+				</div>
+			</Container>
 		</Container>
 		
 	)

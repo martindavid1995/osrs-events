@@ -1,19 +1,22 @@
+import { useAuth } from '../contexts/AuthContext'
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
+import { Card, Alert} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { db } from '../firebase'
 import { getAuth } from 'firebase/auth'
-import ProfileInfo from './ProfileInfo'
 
-export default function Dashboard() {
+
+export default function ProfileInfo() {
+    const currentUser = useAuth()
     const [error, setError] = useState()
     const [username, setUsername] = useState(null)
     const [description, setDescription] = useState(null)
-
-    const navigate = useNavigate()
     const auth = getAuth()
     const docRef = doc(db, "users", auth.currentUser.uid)
-    
+ 
+
+
     useEffect(() => { 
         async function fetchData() {
             const docSnap = await getDoc(docRef)
@@ -28,20 +31,24 @@ export default function Dashboard() {
         fetchData()
     }, [])
     
- 
-
 
     if (!username) {
         return (
-            <div class="text-center">
-                <div class="spinner-border" role="status"></div>
+            <div className="text-center">
+                <div className="spinner-border" role="status"></div>
             </div>
         )
     } else {
         return (
-            <>
-            <ProfileInfo />
-            </>
-            )
+        <Card>
+            <Card.Body>
+                <h2 className='text-center mb-4'>Profile</h2>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <strong>Username: </strong> {username} <br></br>
+                <strong>Description: </strong> {description}<br></br>
+                {/* <Link to="/update-profile" className="btn btn-primary w-50 mt-3">Change Password</Link> */}
+            </Card.Body>
+        </Card>
+        )
     }
 }
