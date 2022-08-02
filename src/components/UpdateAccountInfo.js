@@ -65,11 +65,13 @@ export default function UpdateAccountInfo() {
                         <Form.Label>Description</Form.Label>
                         <Form.Control type="text" ref={aboutRef} defaultValue={description}/>
                     </Form.Group>
-                    <Button disabled={loading} variant="primary" className="w-50 text-center" type="submit">Save Account Information</Button>  
-                   
+                    <Button disabled={loading} variant="primary" className="w-100 mt-3" type="submit">Save Account Information</Button>                    
                 </Form>
             </Card.Body>
         </Card>
+        <div className="w-100 text-center mt-2">
+            <Link to="/update-credentials">Change Password</Link>
+        </div>
     </>
     )
 }

@@ -17,8 +17,7 @@ return (
 		<Router>
 			<Container fluid>
 				<Header />
-					<Container className="d-flex align-items-top justify-content-center pt-3"
-					style={{ minHeight: "100vh" }}>
+					<Container style={{ paddingTop: "3vh"}}>
 						<div className="w-100">
 							<Routes>
 								<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
@@ -38,3 +37,6 @@ return (
 }
 
 export default App
+
+//OLD CSS on line 20
+//className="d-flex align-items-top justify-content-center" style={{ minHeight: "100vh", paddingTop: "5vh" }}

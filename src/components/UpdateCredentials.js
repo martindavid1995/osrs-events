@@ -42,20 +42,20 @@ export default function UpdateCredentials() {
 
     return (
     <>
-        <Card>
+        <Card style={{ width: '50%', margin: '0 auto'}}>
             <Card.Body>
-                <h2 className='text-center mb-4'>Update Profile</h2>
+                <h2 className='text-center mb-4'>Change Password</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id="password">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>New Password</Form.Label>
                         <Form.Control type="password" ref={passwordRef} required/>
                     </Form.Group>
                     <Form.Group id="password-confirm">
-                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Label>Confirm New Password</Form.Label>
                         <Form.Control type="password" ref={passwordConfirmRef} required/>
                     </Form.Group>
-                    <Button disabled={loading} className="w-50" type="submit" value="update">Update</Button>
+                    <Button disabled={loading} className="w-100 mt-3" type="submit" value="update">Update</Button>
                 </Form>
             </Card.Body>
         </Card>

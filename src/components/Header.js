@@ -47,8 +47,8 @@ if (!currentUser || location.pathname === '/create-account'){
               <Navbar.Brand>osrs-events</Navbar.Brand>
               <Navbar.Text>Welcome, {auth.currentUser.email}</Navbar.Text>
               <Navbar.Text className='margin'>
-                <Button variant="primary" onClick={navSettings}>Settings</Button>
-                <Button variant="primary" onClick={handleLogout}>Log Out</Button>
+                <Button variant="primary" className="mx-1" onClick={navSettings}>Settings</Button>
+                <Button variant="primary" className="mx-1" onClick={handleLogout}>Log Out</Button>
               </Navbar.Text>
           </Container>
       </Navbar>

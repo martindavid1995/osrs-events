@@ -40,9 +40,9 @@ export default function ProfileInfo() {
         )
     } else {
         return (
-        <Card style={{ width: '50%', margin: '0 auto'}}>
+        <Card>
             <Card.Body>
-                <h2 className='text-center mb-4'>Profile</h2>
+                <h2 className='text-center'>Profile</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <strong>Username: </strong> {username} <br></br>
                 <strong>Description: </strong> {description}<br></br>

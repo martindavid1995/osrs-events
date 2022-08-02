@@ -3,7 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { getAuth } from 'firebase/auth'
+import { Container, Row, Col } from 'react-bootstrap'
 import ProfileInfo from './ProfileInfo'
+import CommunityPanel from './communities/CommunityPanel'
+import EventPanel from './events/EventPanel'
 
 export default function Dashboard() {
     const [error, setError] = useState()
@@ -31,7 +34,6 @@ export default function Dashboard() {
 
 
     if (!username) {
-        console.log("Username must be null")
         return (
             <div className="text-center">
                 <div className="spinner-border" role="status"></div>
@@ -40,8 +42,22 @@ export default function Dashboard() {
     } else {
         return (
             <>
-            <ProfileInfo />
+                <Container>
+                        <Row>
+                            <Col className="px-0">
+                                <ProfileInfo />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="px-0">
+                                <CommunityPanel />
+                            </Col>
+                            <Col className="px-0">
+                                <EventPanel />
+                            </Col>
+                        </Row>
+                </Container>
             </>
-            )
+        )
     }
 }
