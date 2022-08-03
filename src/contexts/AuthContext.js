@@ -6,6 +6,8 @@ import { doc, collection, setDoc } from 'firebase/firestore'
 const AuthContext = React.createContext()
 const auth2 = getAuth()
 const usersCollectionRef = collection(db, "users")
+const communitiesCollectionRef = collection(db, "communities")
+const communityNamesInUseCollectionRef = collection(db, "communityNamesInUse")
 
 export function useAuth() {
     return useContext(AuthContext)
@@ -47,6 +49,21 @@ export function AuthProvider( {children} ) {
     })
   }
 
+  function createCommunity (name, description, creatorUID, creatorName, imgURL){
+    return setDoc(doc(communitiesCollectionRef, name),{
+      name: name,
+      description: description,
+      creator: creatorName,
+      imgURL: imgURL,
+      admins: [creatorUID],
+      members: [creatorUID]
+    })
+  }
+
+  function setNameInUse(name) {
+    return setDoc(doc(communityNamesInUseCollectionRef, name), {})
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
         setCurrentUser(user)
@@ -64,7 +81,9 @@ export function AuthProvider( {children} ) {
     resetPassword,
     updateEmail,
     updatePassword,
-    updateUserInformation
+    updateUserInformation,
+    createCommunity,
+    setNameInUse
   }
 
   return (

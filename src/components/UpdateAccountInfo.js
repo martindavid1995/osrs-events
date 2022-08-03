@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Card, Form, Button, Alert} from 'react-bootstrap'
+import { Card, Form, Button, Alert, Row, Col} from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
-import { collection, addDoc } from "firebase/firestore"
+import { collection, addDoc, getDocs } from "firebase/firestore"
 import { db } from '../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
@@ -19,6 +19,7 @@ export default function UpdateAccountInfo() {
     const [username, setUsername] = useState(null)
     const [description, setDescription] = useState(null)
 
+    
 
     useEffect(() => { 
         async function fetchData() {
@@ -34,13 +35,15 @@ export default function UpdateAccountInfo() {
         fetchData()
     }, [])
 
+
+
     async function handleSubmit(e) {
         e.preventDefault()
 
         try {
           setError("")
           setLoading(true)
-          await updateUserInformation(usernameRef.current.value, aboutRef.current.value)
+          await updateUserInformation(username, aboutRef.current.value)
           navigate("/")
         } catch (error) {
           console.log(error)
@@ -57,10 +60,10 @@ export default function UpdateAccountInfo() {
                 <h2 className='text-center mb-4'>Update Account Information</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group id="username">
+                    {/* <Form.Group id="username">
                         <Form.Label>Username (RSN)</Form.Label>
                         <Form.Control type="text" ref={usernameRef} defaultValue={username}/>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Form.Group id="about">
                         <Form.Label>Description</Form.Label>
                         <Form.Control type="text" ref={aboutRef} defaultValue={description}/>
@@ -70,7 +73,12 @@ export default function UpdateAccountInfo() {
             </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
-            <Link to="/update-credentials">Change Password</Link>
+            <Row>
+                <Link to="/update-credentials">Change Password</Link>
+            </Row>
+            <Row>
+                <Link to="/">Back</Link>
+            </Row>
         </div>
     </>
     )

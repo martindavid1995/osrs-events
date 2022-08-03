@@ -7,7 +7,7 @@ import { db } from '../firebase'
 import { getAuth } from 'firebase/auth'
 
 
-export default function ProfileInfo() {
+export default function ProfilePanel() {
     const currentUser = useAuth()
     const [error, setError] = useState()
     const [username, setUsername] = useState(null)

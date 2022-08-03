@@ -10,6 +10,7 @@ import UpdateCredentials from "./UpdateCredentials"
 import Header from "./Header"
 import UpdateAccountInfo from "./UpdateAccountInfo"
 import CreateAccount from "./CreateAccount"
+import CreateCommunity from "./communities/CreateCommunity"
 
 function App() {
 return (
@@ -23,6 +24,7 @@ return (
 								<Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
 								<Route path="register" element={<Signup />} />
 								<Route path="login" element={<Login />} />
+								<Route path="/create-community" element={<CreateCommunity />} />
 								<Route path="forgot-password" element={<ForgotPassword />} />
 								<Route path="/update-credentials" element={<PrivateRoute><UpdateCredentials /></PrivateRoute>}></Route>
 								<Route path="/update-account-info" element={<PrivateRoute><UpdateAccountInfo /></PrivateRoute>}></Route>

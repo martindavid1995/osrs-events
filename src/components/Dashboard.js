@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { getAuth } from 'firebase/auth'
 import { Container, Row, Col } from 'react-bootstrap'
-import ProfileInfo from './ProfileInfo'
 import CommunityPanel from './communities/CommunityPanel'
 import EventPanel from './events/EventPanel'
+import ProfilePanel from './ProfilePanel'
 
 export default function Dashboard() {
     const [error, setError] = useState()
@@ -45,7 +44,7 @@ export default function Dashboard() {
                 <Container>
                         <Row>
                             <Col className="px-0">
-                                <ProfileInfo />
+                                <ProfilePanel />
                             </Col>
                         </Row>
                         <Row>
