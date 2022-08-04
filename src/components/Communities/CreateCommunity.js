@@ -10,7 +10,7 @@ import { db } from '../../firebase'
 export default function CreateCommunity() {
     const nameRef = useRef()
     const descriptionRef = useRef()
-    const { createCommunity, setNameInUse } = useAuth()
+    const { createCommunity } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState(null)
@@ -40,7 +40,7 @@ export default function CreateCommunity() {
           setLoading(true)
 
           //Check to see if community already exists
-          const docRefCheck = doc(db, "communityNamesInUse", nameRef.current.value)
+          const docRefCheck = doc(db, "communities", nameRef.current.value)
           const docCheckSnap = await getDoc(docRefCheck)
           //If it does, don't create and throw an error
           if (docCheckSnap.exists()){
@@ -49,9 +49,6 @@ export default function CreateCommunity() {
           
           //Create community
           await createCommunity(nameRef.current.value, descriptionRef.current.value, auth.currentUser.uid, username, 'tempURL')
-
-          //Set name in use
-          await setNameInUse(nameRef.current.value)
 
           navigate('/')
         } catch (error){

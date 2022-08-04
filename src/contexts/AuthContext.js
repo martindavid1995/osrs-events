@@ -7,7 +7,7 @@ const AuthContext = React.createContext()
 const auth2 = getAuth()
 const usersCollectionRef = collection(db, "users")
 const communitiesCollectionRef = collection(db, "communities")
-const communityNamesInUseCollectionRef = collection(db, "communityNamesInUse")
+
 
 export function useAuth() {
     return useContext(AuthContext)
@@ -60,10 +60,6 @@ export function AuthProvider( {children} ) {
     })
   }
 
-  function setNameInUse(name) {
-    return setDoc(doc(communityNamesInUseCollectionRef, name), {})
-  }
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
         setCurrentUser(user)
@@ -83,7 +79,6 @@ export function AuthProvider( {children} ) {
     updatePassword,
     updateUserInformation,
     createCommunity,
-    setNameInUse
   }
 
   return (
