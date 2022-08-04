@@ -6,9 +6,6 @@ import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
 import { getAuth } from 'firebase/auth'
 
-
-
-
 export default function CommunityPage() {
   const { communityID } = useParams()
   const [name, setName] = useState(null)
@@ -25,7 +22,9 @@ export default function CommunityPage() {
     addCommunityAdmin, 
     addCommunityMember, 
     removeCommunityAdmin, 
-    removeCommunityMember
+    removeCommunityMember,
+    subscribeUserToCommunity,
+    unsubscribeUserFromCommunity
     } = useAuth()
 
 
@@ -67,14 +66,16 @@ export default function CommunityPage() {
             case 1:
                 console.log("Add Member")
                 await addCommunityMember(communityID, auth.currentUser.uid, username)
+                await subscribeUserToCommunity(communityID, auth.currentUser.uid)
                 break;
             case 2:
                 console.log("Remove Member")    
-                await removeCommunityMember(communityID, auth.currentUser.uid, username)        
+                await removeCommunityMember(communityID, auth.currentUser.uid, username)
+                await unsubscribeUserFromCommunity(communityID, auth.currentUser.uid)        
                 break;
             case 3:
                 console.log("Add Admin")  
-                await addCommunityAdmin(communityID, auth.currentUser.uid, username)          
+                await addCommunityAdmin(communityID, auth.currentUser.uid, username)         
                 break;
             case 4:
                 console.log("Remove Admin")  

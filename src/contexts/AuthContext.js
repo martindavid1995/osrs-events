@@ -45,7 +45,10 @@ export function AuthProvider( {children} ) {
     return setDoc(doc(usersCollectionRef, auth.currentUser.uid), {
       user: username,
       description: info,
-      imgURL: "placeholder"
+      imgURL: "placeholder",
+      memberOf: [],
+      adminOf: [],
+      enrolledEvents: []
     })
   }
 
@@ -95,6 +98,35 @@ export function AuthProvider( {children} ) {
     })
   }
 
+  function subscribeUserToCommunity(communityID, userID){
+    const userRef = doc(db, "users", userID)
+      return updateDoc(userRef, {
+          memberOf: arrayUnion(communityID)
+      })
+  }
+
+  function unsubscribeUserFromCommunity(communityID, userID){
+    const userRef = doc(db, "users", userID)
+      return updateDoc(userRef, {
+          memberOf: arrayRemove(communityID)
+      })
+  }
+
+  function grantAdminPrivelages(communityID, userID){
+    const userRef = doc(db, "users", userID)
+      return updateDoc(userRef, {
+          adminOf: arrayUnion(communityID)
+      })
+  }
+
+  function removeAdminPrivelages(communityID, userID){
+    const userRef = doc(db, "users", userID)
+      return updateDoc(userRef, {
+          adminOf: arrayRemove(communityID)
+      })
+  }
+  
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
         setCurrentUser(user)
@@ -117,7 +149,11 @@ export function AuthProvider( {children} ) {
     addCommunityAdmin,
     addCommunityMember,
     removeCommunityAdmin,
-    removeCommunityMember
+    removeCommunityMember,
+    subscribeUserToCommunity,
+    unsubscribeUserFromCommunity,
+    grantAdminPrivelages,
+    removeAdminPrivelages
   }
 
   return (

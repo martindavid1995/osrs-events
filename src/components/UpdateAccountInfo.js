@@ -2,8 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Card, Form, Button, Alert, Row, Col} from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
-import { collection, addDoc, getDocs } from "firebase/firestore"
+import { getAuth } from 'firebase/auth'
 import { db } from '../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 

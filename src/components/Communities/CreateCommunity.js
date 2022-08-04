@@ -10,7 +10,7 @@ import { db } from '../../firebase'
 export default function CreateCommunity() {
     const nameRef = useRef()
     const descriptionRef = useRef()
-    const { createCommunity } = useAuth()
+    const { createCommunity, grantAdminPrivelages, subscribeUserToCommunity } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState(null)
@@ -21,6 +21,11 @@ export default function CreateCommunity() {
 
     useEffect(() => { 
       async function fetchData() {
+        if(auth.currentUser === null){
+          navigate("/")
+          throw("not logged in")
+        }
+
           const docSnap = await getDoc(docRef)
 
           if (docSnap.exists()) {
@@ -47,8 +52,10 @@ export default function CreateCommunity() {
             throw "invalid name"
           }
 
+          console.log(nameRef.current.value)
+          const regexp = /( )/gm
           //Check to see if community already exists
-          const docRefCheck = doc(db, "communities", nameRef.current.value)
+          const docRefCheck = doc(db, "communities", (nameRef.current.value).replaceAll(regexp, "-"))
           const docCheckSnap = await getDoc(docRefCheck)
           //If it does, don't create and throw an error
           if (docCheckSnap.exists()){
@@ -58,6 +65,8 @@ export default function CreateCommunity() {
           
           //Create community
           await createCommunity(nameRef.current.value, descriptionRef.current.value, auth.currentUser.uid, username, 'tempURL')
+          await subscribeUserToCommunity(nameRef.current.value, auth.currentUser.uid)
+          await grantAdminPrivelages(nameRef.current.value, auth.currentUser.uid)
 
           navigate(`/community/${(nameRef.current.value).replace(/\s+/g, '-')}`)
         } catch (error){

@@ -44,7 +44,7 @@ if (!currentUser || location.pathname === '/create-account'){
     return (
       <Navbar bg="dark" variant="dark">
           <Container fluid>
-              <Navbar.Brand>osrs-events</Navbar.Brand>
+              <Navbar.Brand href='/'>osrs-events</Navbar.Brand>
               <Navbar.Text>Welcome, {auth.currentUser.email}</Navbar.Text>
               <Navbar.Text className='margin'>
                 <Button variant="primary" className="mx-1" onClick={navSettings}>Settings</Button>

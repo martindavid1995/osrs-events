@@ -6,11 +6,11 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 
 export default function CommunitySlice( {communityID} ) {
-  const [communityName, setCommunityName] = useState("temp_community_name_limited_30")
-  const [description, setDescription] = useState("This is a temporary description for a community page. Instead of imposing a very large character limit i will just cut this string after 151 characters")
+  const [communityName, setCommunityName] = useState(null)//30
+  const [description, setDescription] = useState(null)//151
   const [memberCount, setMemberCount] = useState(0)
   const [imgUrl, setImgUrl] = useState("/images/temp_avatar.jpg")
-  const [creator, setCreator] = useState("temp_owner")
+  const [creator, setCreator] = useState(null)
   const [error, setError] = useState(null)
   const communityDocRef = doc(db, "communities", communityID)
   const navigate = useNavigate()

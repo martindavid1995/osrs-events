@@ -46,7 +46,7 @@ export default function CreateAccount() {
                         <Form.Label>Description</Form.Label>
                         <Form.Control type="text" ref={aboutRef} placeholder="About Me"/>
                     </Form.Group>
-                    <Button disabled={loading} variant="primary" className="w-100" type="submit">Create Account</Button>   
+                    <Button disabled={loading} variant="primary" className="w-100 mt-3 mx-auto" type="submit">Create Account</Button>   
                 </Form>
             </Card.Body>
         </Card>
