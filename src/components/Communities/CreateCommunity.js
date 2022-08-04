@@ -32,6 +32,8 @@ export default function CreateCommunity() {
       fetchData()
   }, [])
 
+  
+
     async function handleSubmit(e) {
         e.preventDefault()
 
@@ -39,21 +41,27 @@ export default function CreateCommunity() {
           setError("")
           setLoading(true)
 
+          //prevent sneaky people from spoofing community url's
+          if (/^.*(-).*|^.*(  ).*/.test(nameRef.current.value)){
+            setError("Invalid name provided. Your name cannot include dashes or concurrent spaces")
+            throw "invalid name"
+          }
+
           //Check to see if community already exists
           const docRefCheck = doc(db, "communities", nameRef.current.value)
           const docCheckSnap = await getDoc(docRefCheck)
           //If it does, don't create and throw an error
           if (docCheckSnap.exists()){
+            setError("Community already exists. Try a new name") 
             throw "preexisting name"
           }
           
           //Create community
           await createCommunity(nameRef.current.value, descriptionRef.current.value, auth.currentUser.uid, username, 'tempURL')
 
-          navigate('/')
+          navigate(`/community/${(nameRef.current.value).replace(/\s+/g, '-')}`)
         } catch (error){
-          console.log(error)
-          setError("Community already exists. Try a new name")    
+          console.log(error)  
         }
     
         setLoading(false)

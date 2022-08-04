@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { auth, db } from '../firebase'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth'
-import { doc, collection, setDoc } from 'firebase/firestore'
+import { doc, collection, setDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'
 
 const AuthContext = React.createContext()
 const auth2 = getAuth()
@@ -49,14 +49,49 @@ export function AuthProvider( {children} ) {
     })
   }
 
-  function createCommunity (name, description, creatorUID, creatorName, imgURL){
-    return setDoc(doc(communitiesCollectionRef, name),{
+  function createCommunity(name, description, creatorUID, creatorName, imgURL){
+    const regexp = /( )/gm
+    return setDoc(doc(communitiesCollectionRef, name.replaceAll(regexp, "-")),{
       name: name,
       description: description,
       creator: creatorName,
       imgURL: imgURL,
-      admins: [creatorUID],
-      members: [creatorUID]
+      adminIDs: [creatorUID],
+      admins: [creatorName],
+      memberIDs: [creatorUID],
+      members: [creatorName]
+    })
+  }
+
+  function addCommunityMember(communityID, newUID, newUsername){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        members: arrayUnion(newUsername),
+        memberIDs: arrayUnion(newUID)
+    })
+  }
+
+  function addCommunityAdmin(communityID, newUID, newUsername){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        admins: arrayUnion(newUsername),
+        adminIDs: arrayUnion(newUID)
+    })
+  }
+
+  function removeCommunityMember(communityID, newUID, newUsername){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        members: arrayRemove(newUsername),
+        memberIDs: arrayRemove(newUID)
+    })
+  }
+
+  function removeCommunityAdmin(communityID, newUID, newUsername){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        admins: arrayRemove(newUsername),
+        adminIDs: arrayRemove(newUID)
     })
   }
 
@@ -79,6 +114,10 @@ export function AuthProvider( {children} ) {
     updatePassword,
     updateUserInformation,
     createCommunity,
+    addCommunityAdmin,
+    addCommunityMember,
+    removeCommunityAdmin,
+    removeCommunityMember
   }
 
   return (

@@ -1,7 +1,6 @@
 import Signup from "./Signup"
 import { Container } from 'react-bootstrap'
 import { AuthProvider } from "../contexts/AuthContext"
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Dashboard from "./Dashboard"
 import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
@@ -11,6 +10,9 @@ import Header from "./Header"
 import UpdateAccountInfo from "./UpdateAccountInfo"
 import CreateAccount from "./CreateAccount"
 import CreateCommunity from "./communities/CreateCommunity"
+
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import CommunityPage from "./communities/CommunityPage"
 
 function App() {
 return (
@@ -29,6 +31,7 @@ return (
 								<Route path="/update-credentials" element={<PrivateRoute><UpdateCredentials /></PrivateRoute>}></Route>
 								<Route path="/update-account-info" element={<PrivateRoute><UpdateAccountInfo /></PrivateRoute>}></Route>
 								<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
+								<Route path="/community/:communityID" element={<CommunityPage />}></Route>
 							</Routes>
 						</div>
 					</Container>
@@ -40,5 +43,3 @@ return (
 
 export default App
 
-//OLD CSS on line 20
-//className="d-flex align-items-top justify-content-center" style={{ minHeight: "100vh", paddingTop: "5vh" }}

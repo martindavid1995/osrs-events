@@ -15,8 +15,8 @@ export default function CommunityPanel() {
     <Card>
         <Card.Body>
             <h2 className='text-center'>Communities</h2>
-            <CommunitySlice />
-            <CommunitySlice />
+            <CommunitySlice communityID="ASVP"/>
+            <CommunitySlice communityID="RS-Generals"/>
           <Row>
             <Button className="mt-3 mx-auto" type="submit" onClick={navCreateCommunity}>Create New Community</Button>
           </Row> 
