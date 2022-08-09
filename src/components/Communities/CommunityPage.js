@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
 import { getAuth } from 'firebase/auth'
+import CommunityPageTitle from './CommunityPageTitle';
 
 export default function CommunityPage() {
   const { communityID } = useParams()
@@ -89,7 +90,7 @@ export default function CommunityPage() {
   
   return (
     <Container>
-        <Row>
+        {/* <Row>
             <Card>
                 <Card.Body>
                     <Row><h2>{name}</h2></Row>
@@ -116,7 +117,9 @@ export default function CommunityPage() {
         <Row>
            <Col><Button variant='primary' className='m-1 w-100' onClick={() => handleClick(3)}>Add Admin</Button></Col>
            <Col><Button variant='danger' className='m-1 w-100' onClick={() => handleClick(4)}>Remove Admin</Button></Col>
-        </Row>
+        </Row> */}
+        <p className='text-center'>Admin Panel</p>
+        <CommunityPageTitle />
     </Container>
 
   )
