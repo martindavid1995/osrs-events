@@ -62,7 +62,11 @@ export function AuthProvider( {children} ) {
       adminIDs: [creatorUID],
       admins: [creatorName],
       memberIDs: [creatorUID],
-      members: [creatorName]
+      members: [creatorName],
+      openApps: [{
+        uid: "",
+        username: ""
+      }]
     })
   }
 
@@ -125,6 +129,26 @@ export function AuthProvider( {children} ) {
           adminOf: arrayRemove(communityID)
       })
   }
+
+  function addOpenApplication(communityID, userID, username){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        openApps: arrayUnion({
+          uid: userID,
+          username: username
+        })
+    })
+  }
+  
+  function removeOpenApplication(communityID, userID, username){
+    const communityRef = doc(db, "communities", communityID)
+    return updateDoc(communityRef, {
+        openApps: arrayRemove({
+          uid: userID,
+          username: username
+        })
+    })
+  }
   
 
   useEffect(() => {
@@ -153,7 +177,9 @@ export function AuthProvider( {children} ) {
     subscribeUserToCommunity,
     unsubscribeUserFromCommunity,
     grantAdminPrivelages,
-    removeAdminPrivelages
+    removeAdminPrivelages,
+    addOpenApplication,
+    removeOpenApplication
   }
 
   return (

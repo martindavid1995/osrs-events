@@ -43,15 +43,15 @@ export default function Dashboard() {
             <>
                 <Container>
                         <Row>
-                            <Col className="px-0">
+                            <Col className="px-0 m-1">
                                 <ProfilePanel />
                             </Col>
                         </Row>
                         <Row>
-                            <Col className="px-0">
+                            <Col className="px-0 m-1">
                                 <CommunityPanel />
                             </Col>
-                            <Col className="px-0">
+                            <Col className="px-0 m-1">
                                 <EventPanel />
                             </Col>
                         </Row>

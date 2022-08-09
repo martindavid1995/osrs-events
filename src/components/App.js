@@ -13,6 +13,7 @@ import CreateCommunity from "./communities/CreateCommunity"
 
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import CommunityPage from "./communities/CommunityPage"
+import CommunityAdminPage from "./communities/CommunityAdminPage"
 
 function App() {
 return (
@@ -32,6 +33,7 @@ return (
 								<Route path="/update-account-info" element={<PrivateRoute><UpdateAccountInfo /></PrivateRoute>}></Route>
 								<Route path="/create-account" element={<PrivateRoute><CreateAccount /></PrivateRoute>}></Route>
 								<Route path="/community/:communityID" element={<CommunityPage />}></Route>
+								<Route path="/community/:communityID/admin" element={<CommunityAdminPage />}></Route>
 							</Routes>
 						</div>
 					</Container>
