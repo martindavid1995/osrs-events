@@ -20,11 +20,10 @@ export default function CommunitySlice( {communityID} ) {
     async function fetchData() {
         const comDocSnap = await getDoc(communityDocRef)
 
-        
         if (comDocSnap.exists()) {
             setCommunityName(comDocSnap.data().name)
             setDescription(comDocSnap.data().description)
-            setCreator(comDocSnap.data().creator)
+            setCreator(comDocSnap.data().creator['user'])
             setMemberCount((comDocSnap.data().members).length)
         } else {
             setError("Query Failed")

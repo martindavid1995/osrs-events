@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import CommunityPageTitle from './CommunityPageTitle'
 import CommunityPageEvents from './CommunityPageEvents'
-import CommunityPageMembers from './CommunityPageMembers'
+import MemberList from './MemberList'
 
 export default function CommunityPage() {
 
@@ -11,7 +11,7 @@ export default function CommunityPage() {
     <Container>
             <Row>
                 <Col className="px-0 m-1">
-                    <CommunityPageTitle />
+                    <CommunityPageTitle button={true}/>
                 </Col>
             </Row>
             <Row>
@@ -19,7 +19,7 @@ export default function CommunityPage() {
                     <CommunityPageEvents />
                 </Col>
                 <Col className="px-0 m-1">
-                    <CommunityPageMembers />
+                    <MemberList admin={false}/>
                 </Col>
             </Row>
     </Container>

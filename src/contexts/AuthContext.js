@@ -57,48 +57,55 @@ export function AuthProvider( {children} ) {
     return setDoc(doc(communitiesCollectionRef, name.replaceAll(regexp, "-")),{
       name: name,
       description: description,
-      creator: creatorName,
+      creator: {UID: creatorUID, user: creatorName},
       imgURL: imgURL,
-      adminIDs: [creatorUID],
-      admins: [creatorName],
-      memberIDs: [creatorUID],
-      members: [creatorName],
-      openApps: [{
-        uid: "",
-        username: ""
-      }]
+      admins: [{UID: creatorUID, user: creatorName}],
+      members: [{UID: creatorUID, user: creatorName}],
+      adminUIDs: [creatorUID],
+      memberUIDs: [creatorUID],
+      adminUsernames: [creatorName],
+      memberUsernames: [creatorName],
+      openApps: []
     })
   }
 
   function addCommunityMember(communityID, newUID, newUsername){
     const communityRef = doc(db, "communities", communityID)
     return updateDoc(communityRef, {
-        members: arrayUnion(newUsername),
-        memberIDs: arrayUnion(newUID)
+        members: arrayUnion({
+          UID: newUID,
+          user: newUsername
+        })
     })
   }
 
   function addCommunityAdmin(communityID, newUID, newUsername){
     const communityRef = doc(db, "communities", communityID)
     return updateDoc(communityRef, {
-        admins: arrayUnion(newUsername),
-        adminIDs: arrayUnion(newUID)
+      admins: arrayUnion({
+        UID: newUID,
+        user: newUsername
+      })
     })
   }
 
   function removeCommunityMember(communityID, newUID, newUsername){
     const communityRef = doc(db, "communities", communityID)
     return updateDoc(communityRef, {
-        members: arrayRemove(newUsername),
-        memberIDs: arrayRemove(newUID)
+        members: arrayRemove({
+          UID: newUID,
+          user: newUsername
+        })
     })
   }
 
   function removeCommunityAdmin(communityID, newUID, newUsername){
     const communityRef = doc(db, "communities", communityID)
     return updateDoc(communityRef, {
-        admins: arrayRemove(newUsername),
-        adminIDs: arrayRemove(newUID)
+      admins: arrayRemove({
+        UID: newUID,
+        user: newUsername
+      })
     })
   }
 

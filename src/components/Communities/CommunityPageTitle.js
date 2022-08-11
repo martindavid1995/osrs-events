@@ -7,16 +7,18 @@ import { getAuth } from 'firebase/auth'
 import { useAuth } from '../../contexts/AuthContext'
 
 
-export default function CommunityPageTitle() {
+
+export default function CommunityPageTitle( {button} ) {
   const { communityID } = useParams()
   const { addOpenApplication } = useAuth()
   const [communityName, setCommunityName] = useState(null)//30
   const [description, setDescription] = useState(null)//151
   const [imgUrl, setImgUrl] = useState("/images/temp_avatar.jpg")
   const [creator, setCreator] = useState(null)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null) //handle these later
+  const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false)
-  const [memberList, setMemberList] = useState([])
+  const [memberList, setMemberList] = useState([{}])
   const [isAdmin, setIsAdmin] = useState(false)
   const [userName, setUsername] = useState(null)
   const [openApps, setOpenApps] = useState([])
@@ -54,22 +56,29 @@ export default function CommunityPageTitle() {
       
   }
 
+  function extractUIDs(array) {
+    var newArr = []
+    array.map((dict) => newArr.push(dict.UID))
+    return newArr
+  }
+
   useEffect(() => { 
     async function fetchData() {
+        setLoading(true)
         const comDocSnap = await getDoc(communityDocRef)
         
         if (comDocSnap.exists()) {
-            setCommunityName(comDocSnap.data().name)
+            setCommunityName(comDocSnap.data().name) 
             setDescription(comDocSnap.data().description)
-            setCreator(comDocSnap.data().creator)
+            setCreator(comDocSnap.data().creator["user"]) 
             setMemberList(comDocSnap.data().members)
-            setOpenApps(comDocSnap.data().openApps)
+            setOpenApps(comDocSnap.data().openApps) 
             if(auth.currentUser){
               const userDocRef = doc(db, "users", auth.currentUser.uid)
               const userDocSnap = await getDoc(userDocRef)
               if (userDocSnap.exists()){
                 setUsername(userDocSnap.data().user)
-                if ((comDocSnap.data().adminIDs).includes(auth.currentUser.uid)){
+                if (extractUIDs(comDocSnap.data().admins).includes(auth.currentUser.uid)){
                   setIsAdmin(true)
                 }
               }
@@ -77,11 +86,20 @@ export default function CommunityPageTitle() {
         } else {
             setError("Query Failed")
         }    
+        setLoading(false)
     }
     fetchData()
 }, [])
 
-  if(isAdmin){
+
+
+if (loading) {
+  return (
+      <div className="text-center">
+          <div className="spinner-border" role="status"></div>
+      </div>
+  )
+} else if(isAdmin && button){
     return (
       <Card>   
         <Card.Body>
@@ -114,7 +132,7 @@ export default function CommunityPageTitle() {
       </Card>
       
     )
-  }else{
+  }else if (!isAdmin){
     return (
       <Card>   
         <Card.Body>
@@ -145,7 +163,37 @@ export default function CommunityPageTitle() {
   
         </Card.Body>
       </Card>
-      
+    )
+  } else {
+    return (
+      <Card>   
+        <Card.Body>
+          <Row className='pb-2'>
+            <Col className='col-md-auto'><Image width={110} height={110} src={imgUrl} rounded/></Col>
+              <Col className='col-lg-2'><Row>
+                  <Col><h4>{communityName}</h4></Col>
+                  <Row><Col><h6>Created by:</h6></Col></Row>
+                  <Row><Col>{creator}</Col></Row>
+              </Row></Col>
+              <Col><Row><Col><strong>About {communityName}: </strong></Col></Row><Row><Col>{description}</Col></Row></Col>
+            </Row>
+          <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Apply to {communityName}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to submit an application to join {communityName}? A community administrator will manage your application upon submission</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={submitApp}>
+              Send Application
+            </Button>
+          </Modal.Footer>
+          </Modal>
+  
+        </Card.Body>
+      </Card>
     )
   }
 
