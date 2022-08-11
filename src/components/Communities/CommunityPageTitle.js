@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext'
 
 
 
-export default function CommunityPageTitle( {button} ) {
+export default function CommunityPageTitle( {from} ) {
   const { communityID } = useParams()
   const { addOpenApplication } = useAuth()
   const [communityName, setCommunityName] = useState(null)//30
@@ -20,6 +20,7 @@ export default function CommunityPageTitle( {button} ) {
   const [show, setShow] = useState(false)
   const [memberList, setMemberList] = useState([{}])
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isMember, setIsMember] = useState(false)
   const [userName, setUsername] = useState(null)
   const [openApps, setOpenApps] = useState([])
   const auth = getAuth()
@@ -72,14 +73,17 @@ export default function CommunityPageTitle( {button} ) {
             setDescription(comDocSnap.data().description)
             setCreator(comDocSnap.data().creator["user"]) 
             setMemberList(comDocSnap.data().members)
-            setOpenApps(comDocSnap.data().openApps) 
+            setOpenApps(comDocSnap.data().openApps)
             if(auth.currentUser){
               const userDocRef = doc(db, "users", auth.currentUser.uid)
               const userDocSnap = await getDoc(userDocRef)
               if (userDocSnap.exists()){
                 setUsername(userDocSnap.data().user)
-                if (extractUIDs(comDocSnap.data().admins).includes(auth.currentUser.uid)){
+                if ((comDocSnap.data().adminUIDs).includes(auth.currentUser.uid)){
                   setIsAdmin(true)
+                  setIsMember(true)
+                } else if ((comDocSnap.data().memberUIDs).includes(auth.currentUser.uid)){
+                  setIsMember(true)
                 }
               }
             }
@@ -99,8 +103,8 @@ if (loading) {
           <div className="spinner-border" role="status"></div>
       </div>
   )
-} else if(isAdmin && button){
-    return (
+} else if(from === "home" && isAdmin && isMember){
+    return ( //Link to admin page
       <Card>   
         <Card.Body>
           <Row className='pb-2'>
@@ -132,8 +136,8 @@ if (loading) {
       </Card>
       
     )
-  }else if (!isAdmin){
-    return (
+  }else if (from === "home" && !isAdmin && !isMember){
+    return ( //Apply Button
       <Card>   
         <Card.Body>
           <Row className='pb-2'>
@@ -164,8 +168,8 @@ if (loading) {
         </Card.Body>
       </Card>
     )
-  } else {
-    return (
+  } else if (from === 'admin' && isAdmin || from === 'home' && !isAdmin && isMember){
+    return ( //show nothing
       <Card>   
         <Card.Body>
           <Row className='pb-2'>

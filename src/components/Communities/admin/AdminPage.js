@@ -47,7 +47,7 @@ export default function AdminPage() {
     <Container>
         <Row>
             <Col className="px-0 m-1">
-                <CommunityPageTitle button={false} />
+                <CommunityPageTitle from={"admin"} />
             </Col>
         </Row>
         <Row>

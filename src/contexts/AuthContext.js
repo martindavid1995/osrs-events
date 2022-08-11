@@ -75,7 +75,9 @@ export function AuthProvider( {children} ) {
         members: arrayUnion({
           UID: newUID,
           user: newUsername
-        })
+        }),
+        memberUIDs: arrayUnion(newUID),
+        memberUsernames: arrayUnion(newUsername)
     })
   }
 
@@ -85,7 +87,9 @@ export function AuthProvider( {children} ) {
       admins: arrayUnion({
         UID: newUID,
         user: newUsername
-      })
+      }),
+      adminUIDs: arrayUnion(newUID),
+      adminUsernames: arrayUnion(newUsername)
     })
   }
 
@@ -95,7 +99,9 @@ export function AuthProvider( {children} ) {
         members: arrayRemove({
           UID: newUID,
           user: newUsername
-        })
+        }),
+        memberUIDs: arrayRemove(newUID),
+        memberUsernames: arrayRemove(newUsername)
     })
   }
 
@@ -105,7 +111,9 @@ export function AuthProvider( {children} ) {
       admins: arrayRemove({
         UID: newUID,
         user: newUsername
-      })
+      }),
+      adminUIDs: arrayRemove(newUID),
+      adminUsernames: arrayRemove(newUsername)
     })
   }
 

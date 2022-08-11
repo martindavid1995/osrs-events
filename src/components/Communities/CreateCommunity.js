@@ -52,7 +52,6 @@ export default function CreateCommunity() {
             throw "invalid name"
           }
 
-          console.log(nameRef.current.value)
           const regexp = /( )/gm
           //Check to see if community already exists
           const docRefCheck = doc(db, "communities", (nameRef.current.value).replaceAll(regexp, "-"))

@@ -11,7 +11,7 @@ export default function CommunityPage() {
     <Container>
             <Row>
                 <Col className="px-0 m-1">
-                    <CommunityPageTitle button={true}/>
+                    <CommunityPageTitle from={"home"}/>
                 </Col>
             </Row>
             <Row>

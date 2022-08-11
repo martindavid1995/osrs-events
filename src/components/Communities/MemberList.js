@@ -4,6 +4,8 @@ import  DropdownButton  from 'react-bootstrap/DropdownButton'
 import { useParams } from 'react-router-dom'
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { useAuth } from '../../contexts/AuthContext'
+import { getAuth } from 'firebase/auth'
 
 export default function MemberList( {admin} ) {
     const [members, setMembers] = useState([])
@@ -13,38 +15,46 @@ export default function MemberList( {admin} ) {
     const [memberData, setMemberData] = useState([])
     const communityID = useParams().communityID
     const communityDocRef = doc(db, "communities", communityID)
+    const { removeCommunityMember, unsubscribeUserFromCommunity, addCommunityAdmin, grantAdminPrivelages } = useAuth()
+    const [loading, setLoading] = useState(false)
+    const [reload, setReload] = useState(false)
 
-    async function kickUser(UID){
-
+    async function kickUser(UID, username){
+        await removeCommunityMember(communityID, UID, username)
+        await unsubscribeUserFromCommunity(communityID, UID)
+        setReload(s => !s)
     }
 
-    function extractUIDs(array) {
-        var newArr = []
-        array.map((dict) => newArr.push(dict.UID))
-        return newArr
-    }
-
-    function extractUsernames(array) {
-        var newArr = []
-        array.map((dict) => newArr.push(dict.user))
-        return newArr
+    async function promoteUser(UID, username){
+        await addCommunityAdmin(communityID, UID, username)
+        await grantAdminPrivelages(communityID, UID)
+        setReload(s => !s)
     }
 
     useEffect(() => { 
         async function fetchData() {
+            setLoading(true)
             const comDocSnap = await getDoc(communityDocRef)
             if (comDocSnap.exists()){
-                setAdmins(extractUsernames(comDocSnap.data().admins)) 
-                setMembers(extractUsernames(comDocSnap.data().members))
-                setMemberUIDs(extractUIDs(comDocSnap.data().members))
-                setAdminUIDs(extractUIDs(comDocSnap.data().admins))
+                setAdmins(comDocSnap.data().adminUsernames) 
+                setMembers(comDocSnap.data().memberUsernames)
+                setMemberUIDs(comDocSnap.data().memberUIDs)
+                setAdminUIDs(comDocSnap.data().adminUIDs)
                 setMemberData(comDocSnap.data().members)
             }
+            setLoading(false)
         }
         fetchData()
+    }, [reload])
 
-    }, [])
-
+    
+    if (loading) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border" role="status"></div>
+            </div>
+        )
+      } else if(admin){
         return (
             <Card>
                 <Card.Body>
@@ -69,10 +79,10 @@ export default function MemberList( {admin} ) {
                                             <DropdownButton size='sm' id="admin-dropdown" title="Manage" onSelect={function(evt){
                                                 switch(evt){
                                                     case 'promote':
-                                                        console.log("promote")
+                                                        promoteUser(dict.UID, dict.user)
                                                         break
                                                     case 'kick':
-                                                        kickUser(dict.UID)
+                                                        kickUser(dict.UID, dict.user)
                                                         break
                                                 }
                                             }}>
@@ -86,20 +96,20 @@ export default function MemberList( {admin} ) {
                 </Card.Body>
             </Card>
         )
-    // } else {
-    //     return(
-    //         <Card>
-    //             <Card.Body>
-    //                 <h4>Member List</h4>
-    //                 <ListGroup>
-    //                     {admins.map((user, index) => <ListGroupItem key={user+index}><Row><Col>{user}</Col><Col><Badge className="flex" bg='primary' pill>Admin</Badge></Col></Row></ListGroupItem>)}
-    //                     {/* filter out the admins from the admin list so that they don't appear twice */}
-    //                     {members.filter(function(val) {return admins.indexOf(val) === -1} ).map((user, index) => <ListGroupItem key={user+index}><Row><Col>{user}</Col><Col><Badge className="flex" bg='secondary' pill>Member</Badge></Col></Row></ListGroupItem>)}
-    //                 </ListGroup>
-    //             </Card.Body>
-    //         </Card>
-    //         )
-    // }
+    } else if (!admin) {
+        return(
+            <Card>
+                <Card.Body>
+                    <h4>Member List</h4>
+                    <ListGroup>
+                        {admins.map((user, index) => <ListGroupItem key={user+index}><Row><Col>{user}</Col><Col><Badge className="flex" bg='primary' pill>Admin</Badge></Col></Row></ListGroupItem>)}
+                        {/* filter out the admins from the admin list so that they don't appear twice */}
+                        {members.filter(function(val) {return admins.indexOf(val) === -1} ).map((user, index) => <ListGroupItem key={user+index}><Row><Col>{user}</Col><Col><Badge className="flex" bg='secondary' pill>Member</Badge></Col></Row></ListGroupItem>)}
+                    </ListGroup>
+                </Card.Body>
+            </Card>
+            )
+    }
     
 }
 
