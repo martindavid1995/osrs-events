@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Card, Button, Image, Col, Row, Modal, Alert } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Card, Button, Image, Col, Row, Modal } from 'react-bootstrap'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getAuth } from 'firebase/auth'
-import { useAuth } from '../../contexts/AuthContext'
-
-
+import { useCommunity } from '../../contexts/CommunityContext'
 
 export default function CommunityPageTitle( {from} ) {
   const { communityID } = useParams()
-  const { addOpenApplication } = useAuth()
+  const { addOpenApplication } = useCommunity()
   const [communityName, setCommunityName] = useState(null)//30
   const [description, setDescription] = useState(null)//151
   const [imgUrl, setImgUrl] = useState("/images/temp_avatar.jpg")
@@ -24,7 +22,9 @@ export default function CommunityPageTitle( {from} ) {
   const [userName, setUsername] = useState(null)
   const [openApps, setOpenApps] = useState([])
   const auth = getAuth()
+  
   const communityDocRef = doc(db, "communities", communityID)
+
   const navigate = useNavigate()
 
   const handleClose = () => setShow(false)
@@ -57,21 +57,14 @@ export default function CommunityPageTitle( {from} ) {
       
   }
 
-  function extractUIDs(array) {
-    var newArr = []
-    array.map((dict) => newArr.push(dict.UID))
-    return newArr
-  }
-
   useEffect(() => { 
     async function fetchData() {
         setLoading(true)
         const comDocSnap = await getDoc(communityDocRef)
-        
         if (comDocSnap.exists()) {
             setCommunityName(comDocSnap.data().name) 
             setDescription(comDocSnap.data().description)
-            setCreator(comDocSnap.data().creator["user"]) 
+            setCreator(comDocSnap.data().creator['user']) 
             setMemberList(comDocSnap.data().members)
             setOpenApps(comDocSnap.data().openApps)
             if(auth.currentUser){
@@ -89,6 +82,7 @@ export default function CommunityPageTitle( {from} ) {
             }
         } else {
             setError("Query Failed")
+            console.log("Query Failed")
         }    
         setLoading(false)
     }
@@ -168,7 +162,7 @@ if (loading) {
         </Card.Body>
       </Card>
     )
-  } else if (from === 'admin' && isAdmin || from === 'home' && !isAdmin && isMember){
+  } else if ((from === 'admin' && isAdmin) || (from === 'home' && !isAdmin && isMember)){
     return ( //show nothing
       <Card>   
         <Card.Body>

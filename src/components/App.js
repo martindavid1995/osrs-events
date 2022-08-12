@@ -14,10 +14,14 @@ import CreateCommunity from "./communities/CreateCommunity"
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import CommunityPage from "./communities/CommunityPage"
 import AdminPage from "./communities/admin/AdminPage"
+import { UserProvider } from "../contexts/UserContext"
+import { CommunityProvider } from "../contexts/CommunityContext"
 
 function App() {
 return (
 	<AuthProvider>
+	<UserProvider>
+	<CommunityProvider>
 		<Router>
 			<Container fluid>
 				<Header />
@@ -39,6 +43,8 @@ return (
 					</Container>
 			</Container>
 		</Router>
+	</CommunityProvider>
+	</UserProvider>
 	</AuthProvider>
 )
 }

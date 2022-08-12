@@ -1,16 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Card, Form, Button, Alert} from 'react-bootstrap'
-import { useAuth } from '../../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { useUser } from '../../contexts/UserContext'
+import { useCommunity } from '../../contexts/CommunityContext'
 
 
 export default function CreateCommunity() {
     const nameRef = useRef()
     const descriptionRef = useRef()
-    const { createCommunity, grantAdminPrivelages, subscribeUserToCommunity } = useAuth()
+    const { createCommunity } = useCommunity()
+    const { subscribeUserToCommunity, grantAdminPrivelages } = useUser()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState(null)

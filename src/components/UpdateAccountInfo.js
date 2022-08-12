@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Card, Form, Button, Alert, Row, Col} from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
+import { useUser } from '../contexts/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth } from 'firebase/auth'
 import { db } from '../firebase'
@@ -9,7 +9,7 @@ import { doc, getDoc } from 'firebase/firestore'
 export default function UpdateAccountInfo() {
     const usernameRef = useRef(null)
     const aboutRef = useRef(null)
-    const { updateUserInformation } = useAuth()
+    const { updateUserInformation } = useUser()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()

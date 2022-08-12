@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom'
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
-import { getAuth } from 'firebase/auth'
+import { useUser } from '../../contexts/UserContext'
+import { useCommunity } from '../../contexts/CommunityContext'
 
 export default function MemberList( {admin} ) {
     const [members, setMembers] = useState([])
@@ -15,7 +16,9 @@ export default function MemberList( {admin} ) {
     const [memberData, setMemberData] = useState([])
     const communityID = useParams().communityID
     const communityDocRef = doc(db, "communities", communityID)
-    const { removeCommunityMember, unsubscribeUserFromCommunity, addCommunityAdmin, grantAdminPrivelages } = useAuth()
+    const { removeCommunityMember } = useCommunity()
+    const { unsubscribeUserFromCommunity, grantAdminPrivelages } = useUser()
+    const { addCommunityAdmin } = useCommunity()
     const [loading, setLoading] = useState(false)
     const [reload, setReload] = useState(false)
 

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Card, Row, Col, Button } from 'react-bootstrap'
-import { useAuth } from '../../../contexts/AuthContext'
+import { useCommunity } from '../../../contexts/CommunityContext'
+import { useUser } from '../../../contexts/UserContext'
 
 export default function ApplicationSlice( {username, UID, communityID, setReload} ) {
-    const { addCommunityMember, removeOpenApplication, subscribeUserToCommunity } = useAuth()
-    
+    const { addCommunityMember, removeOpenApplication } = useCommunity()
+    const { subscribeUserToCommunity } = useUser()
+
     async function handleAccept(){
         try {
             await addCommunityMember(communityID, UID, username)

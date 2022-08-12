@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Image, Col, Row } from 'react-bootstrap'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { Navigate, useNavigate } from 'react-router-dom'
 
@@ -17,8 +17,10 @@ export default function CommunitySlice( {communityID} ) {
 
 
   useEffect(() => { 
+
     async function fetchData() {
         const comDocSnap = await getDoc(communityDocRef)
+        console.log(comDocSnap)
 
         if (comDocSnap.exists()) {
             setCommunityName(comDocSnap.data().name)
@@ -26,11 +28,15 @@ export default function CommunitySlice( {communityID} ) {
             setCreator(comDocSnap.data().creator['user'])
             setMemberCount((comDocSnap.data().members).length)
         } else {
+          console.log("Slice query failed")
             setError("Query Failed")
         }    
     }
     fetchData()
 }, [])
+
+  
+
 
   function navCommunity(){
     navigate(`/community/${communityID}`)

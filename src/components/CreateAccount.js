@@ -5,11 +5,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 import { collection, addDoc } from "firebase/firestore"
 import { db } from '../firebase'
+import { useUser } from '../contexts/UserContext'
 
 export default function CreateAccount() {
     const usernameRef = useRef()
     const aboutRef = useRef()
-    const { updateUserInformation } = useAuth()
+    const { updateUserInformation } = useUser()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
