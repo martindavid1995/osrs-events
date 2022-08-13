@@ -20,8 +20,7 @@ export default function CommunitySlice( {communityID} ) {
 
     async function fetchData() {
         const comDocSnap = await getDoc(communityDocRef)
-        console.log(comDocSnap)
-
+        
         if (comDocSnap.exists()) {
             setCommunityName(comDocSnap.data().name)
             setDescription(comDocSnap.data().description)

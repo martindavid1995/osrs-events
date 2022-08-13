@@ -34,6 +34,10 @@ export default function CommunityPageTitle( {from} ) {
     navigate(`/community/${communityID}/admin`)
   }
 
+  function navCreateEvent(){
+    navigate(`/community/${communityID}/create-event`)
+  }
+
   async function submitApp(){
     try{
       if (!auth.currentUser) { //we are logged out
@@ -110,22 +114,7 @@ if (loading) {
               </Row></Col>
               <Col><Row><Col><strong>About {communityName}: </strong></Col></Row><Row><Col>{description}</Col></Row></Col>
               <Col className='col-md-auto d-flex align-items-center'><Button variant='primary' onClick={navAdmin}>Admin Page</Button></Col>
-            </Row>
-          <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Apply to {communityName}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to submit an application to join {communityName}? A community administrator will manage your application upon submission</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={submitApp}>
-              Send Application
-            </Button>
-          </Modal.Footer>
-          </Modal>
-  
+            </Row>  
         </Card.Body>
       </Card>
       
@@ -162,7 +151,7 @@ if (loading) {
         </Card.Body>
       </Card>
     )
-  } else if ((from === 'admin' && isAdmin) || (from === 'home' && !isAdmin && isMember)){
+  } else if (from === 'home' && !isAdmin && isMember){
     return ( //show nothing
       <Card>   
         <Card.Body>
@@ -174,25 +163,28 @@ if (loading) {
                   <Row><Col>{creator}</Col></Row>
               </Row></Col>
               <Col><Row><Col><strong>About {communityName}: </strong></Col></Row><Row><Col>{description}</Col></Row></Col>
-            </Row>
-          <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Apply to {communityName}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to submit an application to join {communityName}? A community administrator will manage your application upon submission</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={submitApp}>
-              Send Application
-            </Button>
-          </Modal.Footer>
-          </Modal>
-  
+            </Row>  
         </Card.Body>
       </Card>
     )
+  } else if (from === 'admin' && isAdmin){ //link to create event
+    return(
+      <Card>   
+        <Card.Body>
+          <Row className='pb-2'>
+            <Col className='col-md-auto'><Image width={110} height={110} src={imgUrl} rounded/></Col>
+              <Col className='col-lg-2'><Row>
+                  <Col><h4>{communityName}</h4></Col>
+                  <Row><Col><h6>Created by:</h6></Col></Row>
+                  <Row><Col>{creator}</Col></Row>
+              </Row></Col>
+              <Col><Row><Col><strong>About {communityName}: </strong></Col></Row><Row><Col>{description}</Col></Row></Col>
+              <Col className='col-md-auto d-flex align-items-center'><Button variant='primary' onClick={navCreateEvent}>Create Event</Button></Col>
+            </Row>  
+        </Card.Body>
+      </Card>
+    )
+ 
   }
 
   
