@@ -1,7 +1,19 @@
 import React from 'react'
 import { Card, Row, Col, Button } from 'react-bootstrap'
 
-export default function EventSlice({ eventType, challengerName, handleAccept, handleReject }) {
+export default function EventSlice({ eventType, challengerName, setReload }) {
+    async function handleAccept(){
+        console.log("Accept ",challengerName,"'s ",eventType," invitation")
+        setReload(s => !s)
+    }
+
+    async function handleReject(){
+        console.log("Reject ",challengerName,"'s ",eventType," invitation")
+        setReload(s => !s)
+    }
+
+
+
   return (
     <Card className='m-2'>
         <Card.Title className="m-2">Event Invitation</Card.Title>

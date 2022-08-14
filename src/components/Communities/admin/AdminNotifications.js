@@ -7,19 +7,19 @@ import EventSlice from '../../events/EventSlice'
 
 export default function AdminNotifications() {
   const communityID  = useParams().communityID
-  const [incomingInvites, setIncomingInvites] = useState()
+  const [incomingInvites, setIncomingInvites] = useState([])
   const [error, setError] = useState()
+  const [reload, setReload] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
-      const q = query(collection(db, "invitations"), where("to", "==", communityID))
+      const q = query(collection(db, "invitations"), where("to", "==", communityID), where("status", "==", "open"))
       const comDocSnap = await getDocs(q)
       var invites = []
       comDocSnap.forEach((doc) => {
-        console.log(doc.data().from)
         invites.push({
           from: doc.data().from,
-          eventType: doc.data().eventType
+          eventType: doc.data().eventType,
         })
       })
       setIncomingInvites(invites)
@@ -27,12 +27,13 @@ export default function AdminNotifications() {
     fetchData()
   }, [])
 
-
   return (
     <Card>
         <Card.Body>
         <h4 className='text-center'>Community Notifications</h4>
-        {incomingInvites.map((invite, index) => <EventSlice key={invite.from+index} eventType={invite.eventType} challengerName={invite.from}/>)}
+        {incomingInvites.map((invite, index) => 
+            <EventSlice eventType={invite.eventType} challengerName={invite.from} setReload={setReload} />
+        )}
         </Card.Body>
     </Card>
   )
