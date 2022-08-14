@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { getAuth } from 'firebase/auth'
 import { Container, Row, Col } from 'react-bootstrap'
-import CommunityPanel from './communities/CommunityPanel'
-import EventPanel from './events/EventPanel'
+import CommunityPanel from '../communities/CommunityPanel'
+import EventPanel from '../events/EventPanel'
 import ProfilePanel from './ProfilePanel'
 
 export default function Dashboard() {

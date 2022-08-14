@@ -1,11 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { Card, Form, Button, Alert} from 'react-bootstrap'
-import { useAuth } from '../contexts/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 import { collection, addDoc } from "firebase/firestore"
-import { db } from '../firebase'
-import { useUser } from '../contexts/UserContext'
+import { useUser } from '../../contexts/UserContext'
 
 export default function CreateAccount() {
     const usernameRef = useRef()

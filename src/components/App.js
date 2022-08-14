@@ -1,17 +1,18 @@
-import Signup from "./Signup"
-import Dashboard from "./Dashboard"
-import Login from "./Login"
-import PrivateRoute from "./PrivateRoute"
-import ForgotPassword from "./ForgotPassword"
-import UpdateCredentials from "./UpdateCredentials"
-import Header from "./Header"
-import UpdateAccountInfo from "./UpdateAccountInfo"
-import CreateAccount from "./CreateAccount"
-import CreateCommunity from "./communities/CreateCommunity"
-import CreateEvent from "./events/CreateEvent"
-import CreateBingo from "./events/bingo/CreateBingo"
-import CommunityPage from "./communities/CommunityPage"
-import AdminPage from "./communities/admin/AdminPage"
+import Signup from './accounts/Signup'
+import Dashboard from './accounts/Dashboard' 
+import Login from './accounts/Login'
+import PrivateRoute from './PrivateRoute'
+import ForgotPassword from './accounts/ForgotPassword'
+import UpdateCredentials from './accounts/UpdateCredentials' 
+import Header from './Header'
+import UpdateAccountInfo from './accounts/UpdateAccountInfo'
+import CreateAccount from './accounts/CreateAccount'
+import CreateCommunity from './communities/CreateCommunity'
+import CreateEvent from './events/CreateEvent'
+import CreateBingo from './events/bingo/CreateBingo'
+import CommunityPage from './communities/CommunityPage'
+import AdminPage from './communities/admin/AdminPage'
+
 
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import { Container } from 'react-bootstrap'

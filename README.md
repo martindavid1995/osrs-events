@@ -1,3 +1,5 @@
+# osrs-events
+
 [Live Project](https://osrs-events.web.app/)
 #### DELIVERABLE
 A hosted web-application (osrs-events) that allows for the following functionality:

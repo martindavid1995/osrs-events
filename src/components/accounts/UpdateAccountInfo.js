@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Card, Form, Button, Alert, Row, Col} from 'react-bootstrap'
-import { useUser } from '../contexts/UserContext'
+import { useUser } from '../../contexts/UserContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth } from 'firebase/auth'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
 export default function UpdateAccountInfo() {
@@ -18,8 +18,6 @@ export default function UpdateAccountInfo() {
     const [username, setUsername] = useState(null)
     const [description, setDescription] = useState(null)
 
-    
-
     useEffect(() => { 
         async function fetchData() {
             const docSnap = await getDoc(docRef)
@@ -33,7 +31,6 @@ export default function UpdateAccountInfo() {
         }
         fetchData()
     }, [])
-
 
 
     async function handleSubmit(e) {

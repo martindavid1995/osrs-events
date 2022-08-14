@@ -1,9 +1,9 @@
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext'
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { Card, Alert} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { getAuth } from 'firebase/auth'
 
 

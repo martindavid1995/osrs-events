@@ -24,8 +24,37 @@ export function CommunityProvider( {children} ){
           memberUIDs: [creatorUID],
           adminUsernames: [creatorName],
           memberUsernames: [creatorName],
-          openApps: []
+          openApps: [],
+          outgoingInvitations: [],
+          incomingInvitations: [],
+          events: {
+            pending: [],
+            registering: [],
+            live: [],
+            past: [],
+            terminated: []
+          }
         })
+      }
+
+      function addCommunityInvitation(communityID, invitationID, eventID, direction){
+        const communityRef = doc(db, "communities", communityID)
+        if (direction === "outgoing"){
+          return updateDoc(communityRef, {
+            outgoingInvitations: arrayUnion(invitationID),
+            events: {
+              pending: arrayUnion(eventID)
+            }
+          })
+        } else {
+          return updateDoc(communityRef, {
+            incomingInvitations: arrayUnion(invitationID),
+            events: {
+              pending: arrayUnion(eventID)
+            }
+          })
+        }
+        
       }
 
       function addCommunityMember(communityID, newUID, newUsername){
@@ -103,7 +132,8 @@ export function CommunityProvider( {children} ){
         removeCommunityMember,
         removeCommunityAdmin,
         addOpenApplication,
-        removeOpenApplication
+        removeOpenApplication,
+        addCommunityInvitation
     }
 
     return (
