@@ -32,7 +32,7 @@ export default function AdminNotifications() {
         <Card.Body>
         <h4 className='text-center'>Community Notifications</h4>
         {incomingInvites.map((invite, index) => 
-            <EventSlice eventType={invite.eventType} challengerName={invite.from} setReload={setReload} />
+            <EventSlice key={invite.eventType+index} eventType={invite.eventType} challengerName={invite.from} setReload={setReload} />
         )}
         </Card.Body>
     </Card>
