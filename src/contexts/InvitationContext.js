@@ -28,7 +28,7 @@ export function InvitationProvider({ children }) {
   }
 
   function closeInvitation(invID) {
-    const invRef = doc(db, "events", invID);
+    const invRef = doc(db, "invitations", invID);
     return updateDoc(invRef, {
       status: "closed",
     });
@@ -36,6 +36,7 @@ export function InvitationProvider({ children }) {
 
   const value = {
     createInvitation,
+    closeInvitation
   };
 
   return (

@@ -1,26 +1,34 @@
 import React from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
+import { useCommunity } from "../../contexts/CommunityContext";
 import { useEvent } from "../../contexts/EventContext";
+import { useInvitation } from "../../contexts/InvitationContext";
 
 export default function EventSlice({
   eventID,
+  inviteID,
   eventType,
-  challengerName,
   setReload,
+  communityAID,
+  communityBID
 }) {
   const { terminateEvent } = useEvent();
+  const { closeInvitation } = useInvitation();
+  const { rejectInvitation } = useCommunity();
 
   async function handleAccept() {
-    console.log("Accept ", challengerName, "'s ", eventType, " invitation");
     setReload((s) => !s);
   }
 
   async function handleReject() {
-    console.log("Reject ", challengerName, "'s ", eventType, " invitation");
-
     try {
       await terminateEvent(eventID);
-    } catch (e) {}
+      await closeInvitation(inviteID);
+      await rejectInvitation(communityAID, eventID, inviteID)
+      await rejectInvitation(communityBID, eventID, inviteID)
+    } catch (e) {
+      console.log(e)
+    }
 
     setReload((s) => !s);
   }
@@ -33,7 +41,7 @@ export default function EventSlice({
           <Col>
             <Row>
               <Col>
-                <strong>{challengerName}</strong>
+                <strong>{communityAID}</strong>
               </Col>
             </Row>
             <Row>

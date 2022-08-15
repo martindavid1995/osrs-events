@@ -22,15 +22,17 @@ export default function AdminNotifications() {
       var invites = [];
       comDocSnap.forEach((doc) => {
         invites.push({
-          from: doc.data().from,
           eventType: doc.data().eventType,
-          id: doc.id,
+          inviteID: doc.id,
+          eventID: doc.data().eventID,
+          communityAID: doc.data().from,
+          communityBID: doc.data().to
         });
       });
       setIncomingInvites(invites);
     }
     fetchData();
-  }, []);
+  }, [reload]);
 
   return (
     <Card>
@@ -39,9 +41,11 @@ export default function AdminNotifications() {
         {incomingInvites.map((invite, index) => (
           <EventSlice
             key={invite.eventType + index}
-            eventID={invite.id}
+            inviteID={invite.inviteID}
+            eventID={invite.eventID}
+            communityAID={invite.communityAID}
+            communityBID={invite.communityBID}
             eventType={invite.eventType}
-            challengerName={invite.from}
             setReload={setReload}
           />
         ))}

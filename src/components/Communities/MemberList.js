@@ -19,6 +19,7 @@ export default function MemberList({ admin }) {
   const [members, setMembers] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [memberUIDs, setMemberUIDs] = useState([]);
+  const [creator, setCreator] = useState();
   const [adminUIDs, setAdminUIDs] = useState([]);
   const [memberData, setMemberData] = useState([]);
   const communityID = useParams().communityID;
@@ -51,6 +52,7 @@ export default function MemberList({ admin }) {
         setMemberUIDs(comDocSnap.data().memberUIDs);
         setAdminUIDs(comDocSnap.data().adminUIDs);
         setMemberData(comDocSnap.data().members);
+        setCreator(comDocSnap.data().creator.user)
       }
       setLoading(false);
     }
@@ -69,20 +71,30 @@ export default function MemberList({ admin }) {
         <Card.Body>
           <h4>Member List</h4>
           <ListGroup>
-            {admins.map((user, index) => (
-              <ListGroupItem key={user + index}>
-                <Row>
-                  <Col>{user}</Col>
-                  <Col>
-                    <Badge className="flex" bg="primary" pill>
-                      Admin
+          <ListGroupItem>
+          <Row>
+            <Col>{creator}</Col>
+            <Col>
+                    <Badge className="flex" bg="success" pill>
+                      Creator
                     </Badge>
                   </Col>
                   <Col></Col>
-                </Row>
-              </ListGroupItem>
-            ))}
-            {/* filter out the admins from the admin list so that they don't appear twice */}
+          </Row>
+          </ListGroupItem>
+            {admins.filter(user => user !== creator).map((user, index) =>    
+                  <ListGroupItem key={user + index}>
+                    <Row>
+                      <Col>{user}</Col>
+                      <Col>
+                        <Badge className="flex" bg="primary" pill>
+                          Admin
+                        </Badge>
+                      </Col>
+                      <Col></Col>
+                    </Row>
+                  </ListGroupItem>      
+            )}
 
             {memberData
               .filter(function (user) {
@@ -132,7 +144,17 @@ export default function MemberList({ admin }) {
         <Card.Body>
           <h4>Member List</h4>
           <ListGroup>
-            {admins.map((user, index) => (
+          <ListGroupItem>
+          <Row>
+            <Col>{creator}</Col>
+            <Col>
+                    <Badge className="flex" bg="success" pill>
+                      Creator
+                    </Badge>
+                  </Col>
+          </Row>
+          </ListGroupItem>
+            {admins.filter(user => user !== creator).map((user, index) => (
               <ListGroupItem key={user + index}>
                 <Row>
                   <Col>{user}</Col>

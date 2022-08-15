@@ -135,6 +135,19 @@ export function CommunityProvider({ children }) {
     });
   }
 
+  function rejectInvitation(communityID, eventID, invitationID){
+    const communityRef = doc(db, "communities", communityID);
+    return updateDoc(communityRef, {
+      outgoingInvitations: arrayRemove(invitationID),
+      events: { 
+        pending: arrayRemove(eventID)
+      },
+      events: {
+        terminated: arrayUnion(eventID)
+      }
+    })
+  }
+
   const value = {
     createCommunity,
     addCommunityMember,
@@ -144,6 +157,7 @@ export function CommunityProvider({ children }) {
     addOpenApplication,
     removeOpenApplication,
     addCommunityInvitation,
+    rejectInvitation
   };
 
   return (
