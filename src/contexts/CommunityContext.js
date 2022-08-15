@@ -139,10 +139,9 @@ export function CommunityProvider({ children }) {
     const communityRef = doc(db, "communities", communityID);
     return updateDoc(communityRef, {
       outgoingInvitations: arrayRemove(invitationID),
+      incomingInvitations: arrayRemove(invitationID),
       events: { 
-        pending: arrayRemove(eventID)
-      },
-      events: {
+        pending: arrayRemove(eventID),
         terminated: arrayUnion(eventID)
       }
     })

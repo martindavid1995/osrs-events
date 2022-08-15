@@ -82,15 +82,15 @@ export default function CreateBingo() {
           communitiesInvolved,
           playersInvolved
         );
-        console.log("Event ID we just created is: ", eventRef.id);
+        // console.log("Event ID we just created is: ", eventRef.id);
         const invRef = await createInvitation(
           "open",
           challengerID,
           challengeeID,
           eventRef.id,
-          "bingo"
+          "Bingo"
         );
-        console.log("Invitation ID we just created is: ", invRef.id);
+        // console.log("Invitation ID we just created is: ", invRef.id);
         await addCommunityInvitation(
           challengerID,
           invRef.id,
@@ -107,7 +107,7 @@ export default function CreateBingo() {
         setSuccess("Challenge Sent!");
       }
     } catch (error) {
-      console.log(challengeeID);
+      // console.log(challengeeID);
       console.log(error);
     }
 

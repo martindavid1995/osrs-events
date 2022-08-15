@@ -35,7 +35,7 @@ export default function EventSlice({
 
   return (
     <Card className="m-2">
-      <Card.Title className="m-2">Event Invitation</Card.Title>
+      <Card.Title className="m-2">Incoming Event Invitation</Card.Title>
       <Card.Body>
         <Row>
           <Col>
