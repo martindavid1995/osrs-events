@@ -1,55 +1,67 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { auth, db } from '../firebase'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth'
-import { doc, collection, setDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'
+import React, { useContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import {
+  doc,
+  collection,
+  setDoc,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
 
-const AuthContext = React.createContext()
-const auth2 = getAuth()
-const usersCollectionRef = collection(db, "users")
-const communitiesCollectionRef = collection(db, "communities")
-const eventCollectionRef = collection(db, "events")
-
+const AuthContext = React.createContext();
+const auth2 = getAuth();
+const usersCollectionRef = collection(db, "users");
+const communitiesCollectionRef = collection(db, "communities");
+const eventCollectionRef = collection(db, "events");
 
 export function useAuth() {
-    return useContext(AuthContext)
+  return useContext(AuthContext);
 }
 
-export function AuthProvider( {children} ) {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
-  
-  function signup(email, password){
-    return createUserWithEmailAndPassword(auth2, email, password)
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
+
+  function signup(email, password) {
+    return createUserWithEmailAndPassword(auth2, email, password);
   }
 
-  function login(email, password){
-    return signInWithEmailAndPassword(auth2, email, password)
+  function login(email, password) {
+    return signInWithEmailAndPassword(auth2, email, password);
   }
 
   function logout() {
-    return signOut(auth2)
+    return signOut(auth2);
   }
 
   function resetPassword(email) {
-    return sendPasswordResetEmail(auth2, email)
+    return sendPasswordResetEmail(auth2, email);
   }
 
   function updateEmail(email) {
-    return updateEmail(getAuth().currentUser, email)
+    return updateEmail(getAuth().currentUser, email);
   }
 
   function updatePassword(password) {
-    return updatePassword(getAuth.currentUser, password)
-  }  
+    return updatePassword(getAuth.currentUser, password);
+  }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-        setCurrentUser(user)
-        setLoading(false)
-      })
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
 
   const value = {
     currentUser,
@@ -58,12 +70,12 @@ export function AuthProvider( {children} ) {
     signup,
     resetPassword,
     updateEmail,
-    updatePassword
-  }
+    updatePassword,
+  };
 
   return (
     <AuthContext.Provider value={value}>
-        {!loading && children}
+      {!loading && children}
     </AuthContext.Provider>
-  )
+  );
 }

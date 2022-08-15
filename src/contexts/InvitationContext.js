@@ -1,33 +1,46 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { auth, db } from '../firebase'
-import { doc, collection, setDoc, updateDoc, arrayRemove, arrayUnion, addDoc } from 'firebase/firestore'
+import React, { useContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import {
+  doc,
+  collection,
+  setDoc,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+  addDoc,
+} from "firebase/firestore";
 
-const InvitationContext = React.createContext()
+const InvitationContext = React.createContext();
 
 export function useInvitation() {
-    return useContext(InvitationContext)
+  return useContext(InvitationContext);
 }
 
-export function InvitationProvider( {children} ) {
-
-  function createInvitation(status, from, to, eventID, eventType){
+export function InvitationProvider({ children }) {
+  function createInvitation(status, from, to, eventID, eventType) {
     return addDoc(collection(db, "invitations"), {
       status: status,
       from: from,
       to: to,
       eventID: eventID,
-      eventType: eventType 
-    })
+      eventType: eventType,
+    });
   }
 
+  function closeInvitation(invID) {
+    const invRef = doc(db, "events", invID);
+    return updateDoc(invRef, {
+      status: "closed",
+    });
+  }
 
-      const value = {
-        createInvitation
-      }
+  const value = {
+    createInvitation,
+  };
 
-      return (
-        <InvitationContext.Provider value={value}>
-            {children}
-        </InvitationContext.Provider>
-      )
-} 
+  return (
+    <InvitationContext.Provider value={value}>
+      {children}
+    </InvitationContext.Provider>
+  );
+}

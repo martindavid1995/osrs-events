@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function CreatePvpTournament() {
-  return (
-    <div>PvP tournament coming soon</div>
-  )
+  return <div>PvP tournament coming soon</div>;
 }

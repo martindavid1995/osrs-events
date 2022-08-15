@@ -1,24 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { auth, db } from '../firebase'
-import { doc, collection, setDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'
+import React, { useContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import {
+  doc,
+  collection,
+  setDoc,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
 
-const BingoContext = React.createContext()
-const bingoCollectionRef = collection(db, "bingo")
+const BingoContext = React.createContext();
+const bingoCollectionRef = collection(db, "bingo");
 
 export function useBingo() {
-    return useContext(BingoContext)
+  return useContext(BingoContext);
 }
 
-export function BingoProvider( {children} ) {
+export function BingoProvider({ children }) {
+  const value = {};
 
-
-      const value = {
-
-      }
-
-      return (
-        <BingoContext.Provider value={value}>
-            {children}
-        </BingoContext.Provider>
-      )
-} 
+  return (
+    <BingoContext.Provider value={value}>{children}</BingoContext.Provider>
+  );
+}

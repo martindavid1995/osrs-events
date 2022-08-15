@@ -1,36 +1,65 @@
-import React from 'react'
-import { Card, Row, Col, Button } from 'react-bootstrap'
+import React from "react";
+import { Card, Row, Col, Button } from "react-bootstrap";
+import { useEvent } from "../../contexts/EventContext";
 
-export default function EventSlice({ eventType, challengerName, setReload }) {
-    async function handleAccept(){
-        console.log("Accept ",challengerName,"'s ",eventType," invitation")
-        setReload(s => !s)
-    }
+export default function EventSlice({
+  eventID,
+  eventType,
+  challengerName,
+  setReload,
+}) {
+  const { terminateEvent } = useEvent();
 
-    async function handleReject(){
-        console.log("Reject ",challengerName,"'s ",eventType," invitation")
-        setReload(s => !s)
-    }
+  async function handleAccept() {
+    console.log("Accept ", challengerName, "'s ", eventType, " invitation");
+    setReload((s) => !s);
+  }
 
+  async function handleReject() {
+    console.log("Reject ", challengerName, "'s ", eventType, " invitation");
 
+    try {
+      await terminateEvent(eventID);
+    } catch (e) {}
+
+    setReload((s) => !s);
+  }
 
   return (
-    <Card className='m-2'>
-        <Card.Title className="m-2">Event Invitation</Card.Title>
-        <Card.Body>
+    <Card className="m-2">
+      <Card.Title className="m-2">Event Invitation</Card.Title>
+      <Card.Body>
+        <Row>
+          <Col>
             <Row>
-                <Col>
-                    <Row><Col><strong>{challengerName}</strong></Col></Row>
-                    <Row><Col>{eventType}</Col></Row>
-                </Col>
-                <Col>
-                    <Row>
-                        <Col className='mx-1'><Row><Button variant='success' onClick={handleAccept}>Accept</Button></Row></Col>
-                        <Col className='mx-1'><Row><Button variant='danger' onClick={handleReject}>Reject</Button></Row></Col>
-                    </Row>
-                </Col>
+              <Col>
+                <strong>{challengerName}</strong>
+              </Col>
             </Row>
-        </Card.Body>
+            <Row>
+              <Col>{eventType}</Col>
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Col className="mx-1">
+                <Row>
+                  <Button variant="success" onClick={handleAccept}>
+                    Accept
+                  </Button>
+                </Row>
+              </Col>
+              <Col className="mx-1">
+                <Row>
+                  <Button variant="danger" onClick={handleReject}>
+                    Reject
+                  </Button>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Card.Body>
     </Card>
-  )
+  );
 }
