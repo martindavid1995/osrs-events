@@ -2,4 +2,6 @@
 
 [Live Dev Environment](https://osrs-events.web.app/)
 
-Description to come
+Web application designed to facilitate organization of community events on Old School RuneScape
+
+More details to come
