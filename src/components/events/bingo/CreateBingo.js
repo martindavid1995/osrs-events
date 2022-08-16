@@ -1,10 +1,12 @@
 import { getDoc, doc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
+import { Button, Row, Col, Card } from "react-bootstrap";
+import BingoBoard from "./BingoBoard";
 
 export default function CreateBingo() {
   const { closeInvitation } = useInvitation();
@@ -15,15 +17,19 @@ export default function CreateBingo() {
   const eventDocRef = doc(db, "events", eventID);
   const [challengerID, setChallengerID] = useState();
   const [challengeeID, setChallengeeID] = useState();
-  const [bingoRef, setBingoRef] = useState();
+  const [bingoID, setBingoID] = useState();
+  const [items, setItems] = useState(Array(25).fill('N/A'))
+  const navigate = useNavigate()
 
   useEffect(() => {
+    setLoading(true)
     async function fetchData() {
       const eventDocSnap = await getDoc(eventDocRef);
       if (eventDocSnap.exists()) {
         setChallengerID(eventDocSnap.data().communitiesInvolved[0]);
         setChallengeeID(eventDocSnap.data().communitiesInvolved[1]);
       }
+      setLoading(false)
     }
     fetchData();
   }, []);
@@ -37,9 +43,10 @@ export default function CreateBingo() {
             eventDocSnap.exists() &&
             eventDocSnap.data().status === "pending"
           ) {
-            const bingoRef = await createBingo(challengerID, challengeeID);
+            const bingoRef = await createBingo(challengerID, challengeeID, items);
             await setEventStatus(eventID, "creating");
             console.log(bingoRef.id);
+            setBingoID(bingoRef.id);
           } else {
             console.log("Not going to create a duplicate bingo entry");
           }
@@ -58,6 +65,21 @@ export default function CreateBingo() {
       </div>
     );
   } else {
-    return <div>CreateBingo</div>;
+    return (
+      <>
+      <Card>
+        <Card.Body>
+        <Row>
+        <Col>
+          
+        </Col>
+        <Col>
+          <BingoBoard items={items}/>
+        </Col>
+      </Row>
+        </Card.Body>
+      </Card>
+      </>
+    );
   }
 }
