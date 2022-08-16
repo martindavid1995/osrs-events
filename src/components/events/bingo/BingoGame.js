@@ -1,10 +1,11 @@
 import React from "react";
-
+import BingoBoard from "./BingoBoard";
+//The page that displays the bingo game
 export default function BingoGame() {
   return (
     <div>
       <h3>Bingo</h3>
-      <strong>The page that will display the bingo board publiclly</strong>
+      <BingoBoard />
     </div>
   );
 }

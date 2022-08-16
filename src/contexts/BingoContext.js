@@ -45,9 +45,9 @@ export function useBingo() {
 }
 
 export function BingoProvider({ children }) {
-  function createBingo(teamOneID, teamTwoID) {
+  function createBingo(teamOneID, teamTwoID, defaultItemsArray) {
     return addDoc(collection(db, "bingo"), {
-      items: [],
+      items: defaultItemsArray, //text associated with item to obtain
       itemImgs: null,
       teamOneID: teamOneID, //challenger
       teamTwoID: teamTwoID, //challengee
