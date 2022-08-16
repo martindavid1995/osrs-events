@@ -26,7 +26,8 @@ export default function AdminNotifications() {
           inviteID: doc.id,
           eventID: doc.data().eventID,
           communityAID: doc.data().from,
-          communityBID: doc.data().to
+          communityBID: doc.data().to,
+          internalNavURL: doc.data().internalNavURL,
         });
       });
       setIncomingInvites(invites);
@@ -46,6 +47,7 @@ export default function AdminNotifications() {
             communityAID={invite.communityAID}
             communityBID={invite.communityBID}
             eventType={invite.eventType}
+            internalNavURL={invite.internalNavURL}
             setReload={setReload}
           />
         ))}

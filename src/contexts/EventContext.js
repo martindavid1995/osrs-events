@@ -28,16 +28,16 @@ export function EventProvider({ children }) {
     });
   }
 
-  function terminateEvent(eventID) {
+  function setEventStatus(eventID, statusToChange) {
     const eventRef = doc(db, "events", eventID);
     return updateDoc(eventRef, {
-      status: "terminated",
+      status: statusToChange,
     });
   }
 
   const value = {
     createEvent,
-    terminateEvent,
+    setEventStatus,
   };
 
   return (

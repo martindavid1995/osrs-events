@@ -10,6 +10,7 @@ import CreateAccount from "./accounts/CreateAccount";
 import CreateCommunity from "./communities/CreateCommunity";
 import CreateEvent from "./events/CreateEvent";
 import CreateBingo from "./events/bingo/CreateBingo";
+import ChallengeBingo from "./events/bingo/ChallengeBingo";
 import CommunityPage from "./communities/CommunityPage";
 import AdminPage from "./communities/admin/AdminPage";
 
@@ -22,6 +23,7 @@ import { EventProvider } from "../contexts/EventContext";
 import { InvitationProvider } from "../contexts/InvitationContext";
 import { BingoProvider } from "../contexts/BingoContext";
 import CreatePvpTournament from "./events/pvp-tournament/CreatePvpTournament";
+import BingoGame from "./events/bingo/BingoGame";
 
 function App() {
   return (
@@ -92,13 +94,21 @@ function App() {
                             element={<CreateEvent />}
                           ></Route>
                           <Route
-                            path="/community/:communityID/create-bingo"
-                            element={<CreateBingo />}
+                            path="/community/:communityID/challenge-bingo"
+                            element={<ChallengeBingo />}
                           ></Route>
                           <Route
                             path="/community/:communityID/create-pvp-tournament"
                             element={<CreatePvpTournament />}
                           ></Route>
+                          <Route
+                            path="/events/create/:eventID"
+                            element={<CreateBingo />}
+                          />
+                          <Route
+                            path="/events/:bingoID"
+                            element={<BingoGame />}
+                          />
                         </Routes>
                       </div>
                     </Container>

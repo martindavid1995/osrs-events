@@ -23,6 +23,7 @@ export default function CommunitySlice({ communityID }) {
         setDescription(comDocSnap.data().description);
         setCreator(comDocSnap.data().creator["user"]);
         setMemberCount(comDocSnap.data().members.length);
+        setImgUrl(comDocSnap.data().imgURL);
       } else {
         console.log("Slice query failed");
         setError("Query Failed");

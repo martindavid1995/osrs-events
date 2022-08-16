@@ -11,7 +11,7 @@ export default function CommunityPageTitle({ from }) {
   const { addOpenApplication } = useCommunity();
   const [communityName, setCommunityName] = useState(null); //30
   const [description, setDescription] = useState(null); //151
-  const [imgUrl, setImgUrl] = useState("/images/temp_avatar.jpg");
+  const [imgURL, setImgURL] = useState("/images/temp_avatar.jpg");
   const [creator, setCreator] = useState(null);
   const [error, setError] = useState(null); //handle these later
   const [loading, setLoading] = useState(false);
@@ -71,6 +71,7 @@ export default function CommunityPageTitle({ from }) {
         setCreator(comDocSnap.data().creator["user"]);
         setMemberList(comDocSnap.data().members);
         setOpenApps(comDocSnap.data().openApps);
+        setImgURL(comDocSnap.data().imgURL);
         if (auth.currentUser) {
           const userDocRef = doc(db, "users", auth.currentUser.uid);
           const userDocSnap = await getDoc(userDocRef);
@@ -108,7 +109,7 @@ export default function CommunityPageTitle({ from }) {
         <Card.Body>
           <Row className="pb-2">
             <Col className="col-md-auto">
-              <Image width={110} height={110} src={imgUrl} rounded />
+              <Image width={110} height={110} src={imgURL} rounded />
             </Col>
             <Col className="col-lg-2">
               <Row>
@@ -151,7 +152,7 @@ export default function CommunityPageTitle({ from }) {
         <Card.Body>
           <Row className="pb-2">
             <Col className="col-md-auto">
-              <Image width={110} height={110} src={imgUrl} rounded />
+              <Image width={110} height={110} src={imgURL} rounded />
             </Col>
             <Col className="col-lg-2">
               <Row>
@@ -212,7 +213,7 @@ export default function CommunityPageTitle({ from }) {
         <Card.Body>
           <Row className="pb-2">
             <Col className="col-md-auto">
-              <Image width={110} height={110} src={imgUrl} rounded />
+              <Image width={110} height={110} src={imgURL} rounded />
             </Col>
             <Col className="col-lg-2">
               <Row>
@@ -250,7 +251,7 @@ export default function CommunityPageTitle({ from }) {
         <Card.Body>
           <Row className="pb-2">
             <Col className="col-md-auto">
-              <Image width={110} height={110} src={imgUrl} rounded />
+              <Image width={110} height={110} src={imgURL} rounded />
             </Col>
             <Col className="col-lg-2">
               <Row>

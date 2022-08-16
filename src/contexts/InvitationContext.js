@@ -17,13 +17,21 @@ export function useInvitation() {
 }
 
 export function InvitationProvider({ children }) {
-  function createInvitation(status, from, to, eventID, eventType) {
+  function createInvitation(
+    status,
+    from,
+    to,
+    eventID,
+    eventType,
+    internalNavURL
+  ) {
     return addDoc(collection(db, "invitations"), {
       status: status,
       from: from,
       to: to,
       eventID: eventID,
       eventType: eventType,
+      internalNavURL: internalNavURL,
     });
   }
 
@@ -36,7 +44,7 @@ export function InvitationProvider({ children }) {
 
   const value = {
     createInvitation,
-    closeInvitation
+    closeInvitation,
   };
 
   return (

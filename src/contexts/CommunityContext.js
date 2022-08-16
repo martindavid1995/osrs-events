@@ -135,16 +135,16 @@ export function CommunityProvider({ children }) {
     });
   }
 
-  function rejectInvitation(communityID, eventID, invitationID){
+  function rejectInvitation(communityID, eventID, invitationID) {
     const communityRef = doc(db, "communities", communityID);
     return updateDoc(communityRef, {
       outgoingInvitations: arrayRemove(invitationID),
       incomingInvitations: arrayRemove(invitationID),
-      events: { 
+      events: {
         pending: arrayRemove(eventID),
-        terminated: arrayUnion(eventID)
-      }
-    })
+        terminated: arrayUnion(eventID),
+      },
+    });
   }
 
   const value = {
@@ -156,7 +156,7 @@ export function CommunityProvider({ children }) {
     addOpenApplication,
     removeOpenApplication,
     addCommunityInvitation,
-    rejectInvitation
+    rejectInvitation,
   };
 
   return (
