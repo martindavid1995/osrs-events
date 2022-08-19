@@ -18,9 +18,6 @@ import {
 
 const AuthContext = React.createContext();
 const auth2 = getAuth();
-const usersCollectionRef = collection(db, "users");
-const communitiesCollectionRef = collection(db, "communities");
-const eventCollectionRef = collection(db, "events");
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -29,6 +26,10 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  function funcTest(){
+    console.log("Called from a function trigger")
+  }
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth2, email, password);
@@ -64,6 +65,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
+    funcTest,
     currentUser,
     login,
     logout,

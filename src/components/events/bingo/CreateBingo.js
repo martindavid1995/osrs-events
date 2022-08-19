@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
-import { Button, Row, Col, Card } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import BingoBoard from "./BingoBoard";
 
 export default function CreateBingo() {
@@ -36,7 +36,7 @@ export default function CreateBingo() {
 
   useEffect(() => {
     async function makeGame() {
-      if (challengerID !== undefined && challengeeID != undefined) {
+      if (challengerID !== undefined && challengeeID !== undefined) {
         try {
           const eventDocSnap = await getDoc(eventDocRef);
           if (
@@ -66,20 +66,12 @@ export default function CreateBingo() {
     );
   } else {
     return (
-      <>
-      <Card>
-        <Card.Body>
-        <Row>
-        <Col>
-          
-        </Col>
-        <Col>
-          <BingoBoard items={items}/>
-        </Col>
-      </Row>
-        </Card.Body>
-      </Card>
-      </>
+          //pass in onclick function to modify
+          <>
+            <h1 className="text-center">Create Bingo</h1>
+            <BingoBoard items={items}/>
+          </>
+            
     );
   }
 }
