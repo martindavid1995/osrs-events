@@ -18,7 +18,7 @@ export default function CreateEvent() {
   const [navUrl, setNavUrl] = useState([]);
 
   const handleClick = (url) => {
-    console.log(communityID);
+    // console.log(communityID);
     const newUrl = "/community/" + communityID + url;
     navigate(newUrl);
   };

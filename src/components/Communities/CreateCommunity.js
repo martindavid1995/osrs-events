@@ -101,7 +101,7 @@ export default function CreateCommunity() {
             </Form.Group>
             <Form.Group id="description">
               <Form.Label>Community Description</Form.Label>
-              <Form.Control type="text" ref={descriptionRef} required />
+              <Form.Control as='textarea' rows={3} ref={descriptionRef} required />
             </Form.Group>
             <Button disabled={loading} className="w-100 mt-3" type="submit">
               Create Community

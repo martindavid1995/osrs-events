@@ -62,7 +62,8 @@ export default function UpdateAccountInfo() {
             <Form.Group id="about">
               <Form.Label>Description</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
+                rows={3}
                 ref={aboutRef}
                 defaultValue={description}
               />

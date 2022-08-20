@@ -46,7 +46,7 @@ export default function CreateAccount() {
             </Form.Group>
             <Form.Group id="about">
               <Form.Label>Description</Form.Label>
-              <Form.Control type="text" ref={aboutRef} placeholder="About Me" />
+              <Form.Control as='textarea' rows={3} ref={aboutRef} placeholder="About Me" />
             </Form.Group>
             <Button
               disabled={loading}

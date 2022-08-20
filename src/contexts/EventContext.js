@@ -35,9 +35,17 @@ export function EventProvider({ children }) {
     });
   }
 
+  function setEventGameID(eventID, gameID) {
+    const eventRef = doc(db, "events", eventID);
+    return updateDoc(eventRef, {
+      gameID: gameID,
+    });
+  }
+
   const value = {
     createEvent,
     setEventStatus,
+    setEventGameID
   };
 
   return (

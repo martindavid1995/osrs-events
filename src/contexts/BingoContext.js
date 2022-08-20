@@ -56,8 +56,16 @@ export function BingoProvider({ children }) {
     });
   }
 
+  function updateTile(bingoID, newItemArray) { 
+    const bingoRef = doc(db, "bingo", bingoID);
+    return updateDoc(bingoRef, {
+      items: newItemArray
+    })
+  }
+
   const value = {
     createBingo,
+    updateTile
   };
 
   return (

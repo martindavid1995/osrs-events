@@ -1,48 +1,64 @@
-import React from 'react'
-import { Card, CardGroup, Row, Col, Container } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Card, Container, Modal, Button } from 'react-bootstrap'
+import BingoTile from './BingoTile'
 import '../../../styles.css'
+import { db } from "../../../firebase";
+import { getDoc, doc, onSnapshot } from "firebase/firestore";
+import { useParams } from 'react-router-dom';
 
-function Tile({text, idx}){
-    return(
-        <div className='child'>
-            <Card style={{ height: '150px'}} onClick={()=>console.log("clicked idx: ", idx)}>
-                <Card.Body className='text-center text-muted'>
-                    Tile
-                </Card.Body>
-            </Card>
-        </div>
-    )
-}
+export default function BingoBoard() {
+    const [items, setItems] = useState(["N/A"])
+    const [loading, setLoading] = useState(false)
+    const [bingoID, setBingoID] = useState(null)
+    const eventID = useParams().eventID;
+    const eventDocRef = doc(db, "events", eventID);
 
-export default function BingoBoard({items}) {
+    useEffect(() => {
+        setLoading(true)
+        async function fetchData() {
+            const eventDocSnap = await getDoc(eventDocRef)
+            if (eventDocSnap.exists()){
+                setBingoID(eventDocSnap.data().gameID)
+            }
+          setLoading(false)
+        }
+        fetchData();
+      }, []);
+
+      useEffect(() => {
+        setLoading(true)
+        async function fetchData() {
+            if (bingoID !== null){
+                // console.log(bingoID)
+                const bingoDocRef = doc(db, "bingo", bingoID)
+                const unsub = onSnapshot(bingoDocRef, (doc) => {
+                    // console.log(doc.data().items)
+                    setItems(doc.data().items)
+                })
+            setLoading(false)
+            }   
+        }
+        fetchData();
+      }, [bingoID]);
+
+      if (loading || bingoID === null) {
+        return (
+          <div className="text-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        );
+      } else {
       return (
             <Container className='d-flex align-items-start flex-wrap' style={{ width: '775px'}}>
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
-                <Tile />
+                {items.map((item, index) => (
+                    <BingoTile 
+                        bingoID={bingoID}
+                        key={item+index}
+                        text={item.text}
+                        idx={index}
+                    />
+                ))}
             </Container>
-       
-  )
+             )
+        }
 }

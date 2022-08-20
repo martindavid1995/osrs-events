@@ -10,15 +10,13 @@ import BingoBoard from "./BingoBoard";
 
 export default function CreateBingo() {
   const { closeInvitation } = useInvitation();
-  const { setEventStatus } = useEvent();
+  const { setEventStatus, setEventGameID } = useEvent();
   const { createBingo } = useBingo();
   const [loading, setLoading] = useState(false);
   const eventID = useParams().eventID;
   const eventDocRef = doc(db, "events", eventID);
   const [challengerID, setChallengerID] = useState();
   const [challengeeID, setChallengeeID] = useState();
-  const [bingoID, setBingoID] = useState();
-  const [items, setItems] = useState(Array(25).fill('N/A'))
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,6 +34,7 @@ export default function CreateBingo() {
 
   useEffect(() => {
     async function makeGame() {
+      setLoading(true)
       if (challengerID !== undefined && challengeeID !== undefined) {
         try {
           const eventDocSnap = await getDoc(eventDocRef);
@@ -43,13 +42,13 @@ export default function CreateBingo() {
             eventDocSnap.exists() &&
             eventDocSnap.data().status === "pending"
           ) {
-            const bingoRef = await createBingo(challengerID, challengeeID, items);
+            const bingoRef = await createBingo(challengerID, challengeeID, Array(25).fill({text: 'Empty Tile', image: null, description: ''}));
             await setEventStatus(eventID, "creating");
-            console.log(bingoRef.id);
-            setBingoID(bingoRef.id);
+            await setEventGameID(eventID, bingoRef.id)
           } else {
-            console.log("Not going to create a duplicate bingo entry");
+            // console.log("Not going to create a duplicate bingo entry");
           }
+          setLoading(false)
         } catch (e) {
           console.log(e);
         }
@@ -66,10 +65,9 @@ export default function CreateBingo() {
     );
   } else {
     return (
-          //pass in onclick function to modify
           <>
-            <h1 className="text-center">Create Bingo</h1>
-            <BingoBoard items={items}/>
+            <h1 className="text-center">Create A Bingo Game</h1>
+            <BingoBoard />
           </>
             
     );
