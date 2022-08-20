@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 
 const BingoContext = React.createContext();
-const bingoCollectionRef = collection(db, "bingo");
 const defaultStatusArray = [
   false,
   false,

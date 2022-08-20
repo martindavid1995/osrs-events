@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
-import { Container } from "react-bootstrap";
 import BingoBoard from "./BingoBoard";
 
 export default function CreateBingo() {
