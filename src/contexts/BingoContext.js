@@ -24,7 +24,7 @@ const defaultStatusArray = [
   false,
   false,
   false,
-  true,
+  false,
   false,
   false,
   false,
@@ -55,16 +55,16 @@ export function BingoProvider({ children }) {
     });
   }
 
-  function updateTile(bingoID, newItemArray) { 
+  function updateTile(bingoID, newItemArray) {
     const bingoRef = doc(db, "bingo", bingoID);
     return updateDoc(bingoRef, {
-      items: newItemArray
-    })
+      items: newItemArray,
+    });
   }
 
   const value = {
     createBingo,
-    updateTile
+    updateTile,
   };
 
   return (

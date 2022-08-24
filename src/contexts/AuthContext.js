@@ -27,8 +27,8 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function funcTest(){
-    console.log("Called from a function trigger")
+  function funcTest() {
+    console.log("Called from a function trigger");
   }
 
   function signup(email, password) {

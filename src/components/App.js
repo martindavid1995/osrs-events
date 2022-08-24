@@ -24,6 +24,7 @@ import { InvitationProvider } from "../contexts/InvitationContext";
 import { BingoProvider } from "../contexts/BingoContext";
 import CreatePvpTournament from "./events/pvp-tournament/CreatePvpTournament";
 import BingoGame from "./events/bingo/BingoGame";
+import SpriteSearch from "./Search/SpriteSearch";
 
 function App() {
   return (
@@ -109,6 +110,7 @@ function App() {
                             path="/events/:bingoID"
                             element={<BingoGame />}
                           />
+                          <Route path="/search" element={<SpriteSearch />} />
                         </Routes>
                       </div>
                     </Container>

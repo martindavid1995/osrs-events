@@ -16,24 +16,24 @@ export default function CreateBingo() {
   const eventDocRef = doc(db, "events", eventID);
   const [challengerID, setChallengerID] = useState();
   const [challengeeID, setChallengeeID] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     async function fetchData() {
       const eventDocSnap = await getDoc(eventDocRef);
       if (eventDocSnap.exists()) {
         setChallengerID(eventDocSnap.data().communitiesInvolved[0]);
         setChallengeeID(eventDocSnap.data().communitiesInvolved[1]);
       }
-      setLoading(false)
+      setLoading(false);
     }
     fetchData();
   }, []);
 
   useEffect(() => {
     async function makeGame() {
-      setLoading(true)
+      setLoading(true);
       if (challengerID !== undefined && challengeeID !== undefined) {
         try {
           const eventDocSnap = await getDoc(eventDocRef);
@@ -41,13 +41,21 @@ export default function CreateBingo() {
             eventDocSnap.exists() &&
             eventDocSnap.data().status === "pending"
           ) {
-            const bingoRef = await createBingo(challengerID, challengeeID, Array(25).fill({text: 'Empty Tile', image: null, description: ''}));
+            const bingoRef = await createBingo(
+              challengerID,
+              challengeeID,
+              Array(25).fill({
+                text: "Empty Tile",
+                image: null,
+                description: "",
+              })
+            );
             await setEventStatus(eventID, "creating");
-            await setEventGameID(eventID, bingoRef.id)
+            await setEventGameID(eventID, bingoRef.id);
           } else {
             // console.log("Not going to create a duplicate bingo entry");
           }
-          setLoading(false)
+          setLoading(false);
         } catch (e) {
           console.log(e);
         }
@@ -64,11 +72,10 @@ export default function CreateBingo() {
     );
   } else {
     return (
-          <>
-            <h1 className="text-center">Create A Bingo Game</h1>
-            <BingoBoard />
-          </>
-            
+      <>
+        <h1 className="text-center">Create A Bingo Game</h1>
+        <BingoBoard />
+      </>
     );
   }
 }

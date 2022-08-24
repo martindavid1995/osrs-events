@@ -45,7 +45,7 @@ export function EventProvider({ children }) {
   const value = {
     createEvent,
     setEventStatus,
-    setEventGameID
+    setEventGameID,
   };
 
   return (
