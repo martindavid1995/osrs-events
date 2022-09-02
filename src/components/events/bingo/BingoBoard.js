@@ -51,14 +51,15 @@ export default function BingoBoard() {
     return (
       <Container
         className="d-flex align-items-start flex-wrap"
-        style={{ width: "775px" }}
+        style={{ width: "625px" }}
       >
         {items.map((item, index) => (
           <BingoTile
             bingoID={bingoID}
-            key={item + index}
+            key={item.text + index}
             text={item.text}
             idx={index}
+            imgURL={item.image}
           />
         ))}
       </Container>

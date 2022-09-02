@@ -26,6 +26,10 @@ import CreatePvpTournament from "./events/pvp-tournament/CreatePvpTournament";
 import BingoGame from "./events/bingo/BingoGame";
 import SpriteSearch from "./Search/SpriteSearch";
 
+
+
+
+
 function App() {
   return (
     <AuthProvider>

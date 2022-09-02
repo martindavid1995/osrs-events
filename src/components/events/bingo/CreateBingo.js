@@ -6,6 +6,7 @@ import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
 import BingoBoard from "./BingoBoard";
+import { Row, Col } from "react-bootstrap";
 
 export default function CreateBingo() {
   const { closeInvitation } = useInvitation();
@@ -46,7 +47,7 @@ export default function CreateBingo() {
               challengeeID,
               Array(25).fill({
                 text: "Empty Tile",
-                image: null,
+                image: "https://oldschool.runescape.wiki/images/Bank_filler_detail.png",
                 description: "",
               })
             );
@@ -73,7 +74,8 @@ export default function CreateBingo() {
   } else {
     return (
       <>
-        <h1 className="text-center">Create A Bingo Game</h1>
+        <Row><Col><h1 className="text-center">Create A Bingo Game</h1></Col></Row>
+        <Row><Col><h6 className="text-center text-muted">Click a tile to set it's contents</h6></Col></Row>
         <BingoBoard />
       </>
     );

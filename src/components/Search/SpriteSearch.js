@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, Form, Button, Alert } from 'react-bootstrap'
 import SearchResults from './SearchResults'
 
-export default function SpriteSearch() {
+export default function SpriteSearch(getSelection) {
     const url = "https://raw.githubusercontent.com/martindavid1995/dataset-thinner/master/item_images.json"
     const [results, setResults] = useState([])
     
@@ -42,13 +42,14 @@ export default function SpriteSearch() {
                 type='text'   
                 onChange={(event) => {
                    doSearch(((event.target.value).replaceAll(" ", "_")).toLowerCase());
+                   getSelection={getSelection}
                 }} />
                 
             </Form.Group>  
             </Form> 
 
      <>
-     <SearchResults results={results}></SearchResults>
+     <SearchResults results={results} ></SearchResults>
      </> 
      </>
   )

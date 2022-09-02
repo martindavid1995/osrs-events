@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "bootstrap": "^5.2.0",
+    "bootswatch": "^5.2.0",
     "firebase": "^9.9.1",
     "mdb-react-ui-kit": "^4.1.0",
     "react": "^18.2.0",
