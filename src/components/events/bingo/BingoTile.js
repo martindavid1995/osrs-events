@@ -24,7 +24,6 @@ export default function BingoTile({ bingoID, idx }) {
 
   useEffect(() => {  
     async function fetchData() {
-      console.log("useEffecting too much")
       const bingoDocSnap = await getDoc(bingoDocRef);
       if (bingoDocSnap.exists()) {
         setCurrImg(bingoDocSnap.data().items[idx].image)
@@ -34,7 +33,6 @@ export default function BingoTile({ bingoID, idx }) {
   }, [submit]);
 
   async function sendUpdate(e) {
-    console.log("in sendUpdate")
     e.preventDefault();
     try {
       const bingoDocSnap = await getDoc(bingoDocRef);
@@ -56,7 +54,6 @@ export default function BingoTile({ bingoID, idx }) {
 
 
   function getSelection(selection, smallSprite, detail_img) {
-    console.log("Pulled selection ", selection, " up from the sprite search");
     setTempImg(detail_img)
     searchRef.current.value = "";
     setResults([]);
@@ -117,9 +114,9 @@ export default function BingoTile({ bingoID, idx }) {
               src={tempImg} 
               onError={() => 
                 {
-                  if (tempImg !== "" && errored === false && currImg !== ""){
+                  if (tempImg !== "" && errored === false){
                     setErrored(true)
-                    setCurrImg(currImg.slice(0, -4) + "_animated.gif")
+                    setTempImg(tempImg.slice(0, -4) + "_animated.gif")
                   }
                 }
               }
