@@ -14,6 +14,7 @@ To create a platform for Old School RuneScape players to interact with one anoth
 * Administrative privelages for community members (accept invites, promote/kick members, etc.)
 * Event creation and challenging
 * PvM Bingo 
+<<<<<<< HEAD
 
 ### Upcoming Features
 * New events (PvP Tournaments, Item hunts, Pet hunts, etc.)
@@ -36,6 +37,8 @@ To create a platform for Old School RuneScape players to interact with one anoth
 * Administrative privelages for community members (accept invites, promote/kick members, etc.)
 * Event creation and challenging
 * PvM Bingo 
+=======
+>>>>>>> 35f0b4792d292f5419981769951f2b933a05e0fc
 
 ### Upcoming Features
 * New events (PvP Tournaments, Item hunts, Pet hunts, etc.)
