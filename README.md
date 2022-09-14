@@ -1,7 +1,22 @@
 # osrs-events
 
+**This project is still actively in development. It doesn't work as intended yet!**
+
 [Live Dev Environment](https://osrs-events.web.app/)
 
-Web application designed to facilitate organization of community events on Old School RuneScape
+### Purpose
+To create a platform for Old School RuneScape players to interact with one another through organized community events. 
 
-More details to come
+### Current Features
+* User authentication
+* Account creation
+* Community formation
+* Administrative privelages for community members (accept invites, promote/kick members, etc.)
+* Event creation and challenging
+* PvM Bingo 
+
+### Upcoming Features
+* New events (PvP Tournaments, Item hunts, Pet hunts, etc.)
+* General community announcements
+* RuneLite integration
+* UI Overhaul 
