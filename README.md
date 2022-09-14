@@ -1,6 +1,6 @@
 # osrs-events
 
-**This project is still actively in development. It doesn't work as intended yet!**
+**This project is actively in development**
 
 [Live Dev Environment](https://osrs-events.web.app/)
 
