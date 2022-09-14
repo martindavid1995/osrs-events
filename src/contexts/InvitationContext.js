@@ -35,16 +35,16 @@ export function InvitationProvider({ children }) {
     });
   }
 
-  function closeInvitation(invID) {
+  function setInvitationStatus(invID, status) {
     const invRef = doc(db, "invitations", invID);
     return updateDoc(invRef, {
-      status: "closed",
+      status: status,
     });
   }
 
   const value = {
     createInvitation,
-    closeInvitation,
+    setInvitationStatus,
   };
 
   return (

@@ -17,6 +17,7 @@ export default function ChallengeBingo() {
   const { createEvent } = useEvent();
   const { createInvitation } = useInvitation();
   const { addCommunityInvitation } = useCommunity();
+  const gameTitleRef = useRef();
   const auth = useAuth();
   const navigate = useNavigate();
   const communityDocRef = doc(db, "communities", challengerID);
@@ -80,7 +81,8 @@ export default function ChallengeBingo() {
           "bingo",
           "pending",
           communitiesInvolved,
-          playersInvolved
+          playersInvolved,
+          gameTitleRef.current.value
         );
         // console.log("Event ID we just created is: ", eventRef.id);
         const invRef = await createInvitation(
@@ -127,6 +129,14 @@ export default function ChallengeBingo() {
           {error && <Alert variant="danger">{error}</Alert>}
           {success && <Alert variant="success">{success}</Alert>}
           <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="eventTitle">
+              <Form.Label>What would you like to title your event?</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Game Title"
+                ref={gameTitleRef}
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="communityToChallenge">
               <Form.Label>Which community will you be challenging?</Form.Label>
               <Form.Control

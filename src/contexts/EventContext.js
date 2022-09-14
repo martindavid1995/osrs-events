@@ -18,13 +18,14 @@ export function useEvent() {
 }
 
 export function EventProvider({ children }) {
-  function createEvent(gametype, status, communitiesInvolved, playersInvolved) {
+  function createEvent(gametype, status, communitiesInvolved, playersInvolved, eventName) {
     return addDoc(collection(db, "events"), {
       gametype: gametype,
       status: status,
       gameID: null,
       communitiesInvolved: communitiesInvolved,
       playersInvolved: playersInvolved,
+      eventName: eventName
     });
   }
 

@@ -1,76 +1,76 @@
 import React from "react";
-import { Card, Row, Col, Button } from "react-bootstrap";
-import { useCommunity } from "../../contexts/CommunityContext";
-import { useEvent } from "../../contexts/EventContext";
-import { useInvitation } from "../../contexts/InvitationContext";
-import { useNavigate } from "react-router-dom";
+import { Card, Row, Col, Button, Badge } from "react-bootstrap";
 
 export default function EventSlice({
-  eventID,
-  inviteID,
   eventType,
-  setReload,
-  communityAID,
-  communityBID,
-  internalNavURL,
+  communitiesInvolved,
+  eventTitle,
+  status,
 }) {
-  const { setEventStatus } = useEvent();
-  const { closeInvitation } = useInvitation();
-  const { rejectInvitation } = useCommunity();
-  const navigate = useNavigate();
-
-  async function handleAccept() {
-    await closeInvitation(inviteID);
-    setReload((s) => !s);
-    navigate(internalNavURL);
+  function capFirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  async function handleReject() {
-    try {
-      await setEventStatus(eventID, "terminated");
-      await closeInvitation(inviteID);
-      await rejectInvitation(communityAID, eventID, inviteID);
-      await rejectInvitation(communityBID, eventID, inviteID);
-    } catch (e) {
-      console.log(e);
+  function getCommunitiesInvolvedCol() {
+    if (communitiesInvolved.length > 3) {
+      return (
+        <>
+        <Row>
+          <Col>{communitiesInvolved[0]}</Col>
+          <Col>{communitiesInvolved[1]}</Col>
+          <Col>{communitiesInvolved[2]}</Col>
+          <Col>...</Col>
+        </Row>
+        </>
+      );
+    } else if (communitiesInvolved.length === 3) {
+      return (
+        <>
+        <Row>
+          <Col>{communitiesInvolved[0]}</Col>
+          <Col>{communitiesInvolved[1]}</Col>
+          <Col>{communitiesInvolved[2]}</Col>
+        </Row>
+        </>
+      );
+    } else if (communitiesInvolved.length === 2) {
+      return (
+        <>
+        <Row>
+          <Col>{communitiesInvolved[0]}</Col>
+          <Col>{communitiesInvolved[1]}</Col>
+        </Row>
+        </>
+      );
+    } else {
+      return (
+        <>
+        <Row>
+          <Col>{communitiesInvolved[0]}</Col>
+        </Row>
+        </>
+      );
     }
-
-    setReload((s) => !s);
   }
 
   return (
     <Card className="m-2">
-      <Card.Title className="m-2">
-        Incoming Event Invitation: {eventType}
-      </Card.Title>
       <Card.Body>
         <Row>
-          <Col>
-            <Row>
-              <Col>
-                From: <strong>{communityAID}</strong>
-              </Col>
-            </Row>
+          <Col md="auto">
+            <h5>
+              <Badge>{capFirst(eventType)}</Badge>
+            </h5>
           </Col>
           <Col>
-            <Row>
-              <Col className="mx-1">
-                <Row>
-                  <Button size="sm" variant="success" onClick={handleAccept}>
-                    Accept
-                  </Button>
-                </Row>
-              </Col>
-              <Col className="mx-1">
-                <Row>
-                  <Button size="sm" variant="danger" onClick={handleReject}>
-                    Reject
-                  </Button>
-                </Row>
-              </Col>
-            </Row>
+            <h5>{eventTitle}</h5>
           </Col>
         </Row>
+        <Row>
+          <Col>{communitiesInvolved[0]}</Col>
+          <Col>{communitiesInvolved[1]}</Col>
+        </Row>
+        <Row></Row>
       </Card.Body>
     </Card>
   );

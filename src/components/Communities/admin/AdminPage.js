@@ -7,8 +7,10 @@ import { Row, Col, Container } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import CommunityPageTitle from "../CommunityPageTitle";
 import OpenApplications from "./OpenApplications";
-import AdminNotifications from "./AdminNotifications";
+import CommnityNotificationsPanel from "./CommunityNotificationsPanel";
 import MemberList from "../MemberList";
+import CommunityNotificationsPanel from "./CommunityNotificationsPanel";
+import AdminEventPanel from "./AdminEventPanel";
 
 export default function AdminPage() {
   const auth = getAuth();
@@ -49,14 +51,17 @@ export default function AdminPage() {
         </Col>
       </Row>
       <Row>
+      <Col className="px-0 m-1" xs={12}>
+          <MemberList admin={true} />
+        </Col>
         <Col className="px-0 m-1">
           <OpenApplications />
         </Col>
         <Col className="px-0 m-1">
-          <AdminNotifications />
+          <CommunityNotificationsPanel />
         </Col>
         <Col className="px-0 m-1">
-          <MemberList admin={true} />
+          <AdminEventPanel />
         </Col>
       </Row>
     </Container>

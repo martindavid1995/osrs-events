@@ -7,6 +7,7 @@ import {
   Row,
   Col,
   Dropdown,
+  Accordion
 } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useParams } from "react-router-dom";
@@ -67,7 +68,11 @@ export default function MemberList({ admin }) {
     );
   } else if (admin) {
     return (
-      <Card>
+      <Accordion>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Member List</Accordion.Header>
+          <Accordion.Body>
+          <Card>
         <Card.Body>
           <h4>Member List</h4>
           <ListGroup>
@@ -139,6 +144,9 @@ export default function MemberList({ admin }) {
           </ListGroup>
         </Card.Body>
       </Card>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     );
   } else if (!admin) {
     return (

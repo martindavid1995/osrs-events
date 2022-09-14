@@ -3,12 +3,11 @@ import { Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { doc, getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
-import EventSlice from "../../events/EventSlice";
+import EventInvitationSlice from "../../events/EventInvitationSlice";
 
-export default function AdminNotifications() {
+export default function CommunityNotificationsPanel() {
   const communityID = useParams().communityID;
   const [incomingInvites, setIncomingInvites] = useState([]);
-  const [error, setError] = useState();
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function AdminNotifications() {
       <Card.Body>
         <h4 className="text-center">Community Notifications</h4>
         {incomingInvites.map((invite, index) => (
-          <EventSlice
+          <EventInvitationSlice
             key={invite.eventType + index}
             inviteID={invite.inviteID}
             eventID={invite.eventID}

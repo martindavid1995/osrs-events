@@ -25,7 +25,7 @@ export default function OpenApplications() {
   return (
     <Card>
       <Card.Body>
-        <h4 className="text-center">Pending Applications</h4>
+        <h4 className="text-center">Membership Applications</h4>
         {openApps.map((app, index) => (
           <ApplicationSlice
             key={app + index}
