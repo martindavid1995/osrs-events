@@ -12,6 +12,8 @@ export default function EventSlice({
   function getButtonLink(){
     if (status === "creating"){
       return "/events/create/"+eventID
+    } else if (status === "live"){
+      return "/events/"+eventID
     } else return ""
   }
 

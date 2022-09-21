@@ -7,7 +7,7 @@ export default function BingoGame() {
     <div>
       <h3>Bingo</h3>
 
-      <BingoBoard />
+      <BingoBoard/>
     </div>
   );
 }

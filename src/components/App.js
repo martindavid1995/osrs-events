@@ -24,7 +24,7 @@ import { InvitationProvider } from "../contexts/InvitationContext";
 import { BingoProvider } from "../contexts/BingoContext";
 import CreatePvpTournament from "./events/pvp-tournament/CreatePvpTournament";
 import BingoGame from "./events/bingo/BingoGame";
-import SpriteSearch from "./Search/SpriteSearch";
+import SpriteSearch from "./search/SpriteSearch";
 
 
 

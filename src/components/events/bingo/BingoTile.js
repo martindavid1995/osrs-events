@@ -3,7 +3,7 @@ import { Card, Image, Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { useBingo } from "../../../contexts/BingoContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
-import SearchResults from "../../Search/SearchResults";
+import SearchResults from "../../search/SearchResults";
 
 export default function BingoTile({ bingoID, idx }) {
   const [show, setShow] = useState();
