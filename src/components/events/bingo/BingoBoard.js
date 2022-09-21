@@ -10,9 +10,16 @@ export default function BingoBoard() {
   const [items, setItems] = useState(["N/A"]);
   const [loading, setLoading] = useState(false);
   const [bingoID, setBingoID] = useState(null);
-  const eventID = useParams().eventID;
+  const eID = useParams().eventID;
+  const bID = useParams().bingoID;
+  var eventID = ""
+  if (eID === undefined) {
+    eventID = bID
+  } else {
+    eventID = eID
+  }
   const eventDocRef = doc(db, "events", eventID);
-
+  
   useEffect(() => {
     setLoading(true);
     async function fetchData() {
@@ -29,7 +36,6 @@ export default function BingoBoard() {
     setLoading(true);
     async function fetchData() {
       if (bingoID !== null) {
-        // console.log(bingoID)
         const bingoDocRef = doc(db, "bingo", bingoID);
         const unsub = onSnapshot(bingoDocRef, (doc) => {
           // console.log(doc.data().items)
