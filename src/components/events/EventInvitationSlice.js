@@ -39,7 +39,7 @@ export default function EventInvitationSlice({
   }
 
   return (
-    <Card className="m-2">
+    <Card className="m-2" bg="secondary">
       <Card.Title className="m-2">
         Incoming Event Invitation: {eventType}
       </Card.Title>

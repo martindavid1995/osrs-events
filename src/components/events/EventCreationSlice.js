@@ -9,7 +9,7 @@ export default function EventCreationSlice({
   whenClicked,
 }) {
   return (
-    <Card style={{ width: "18rem", padding: "4px", margin: "17px" }}>
+    <Card style={{ width: "18rem", padding: "4px", margin: "17px" }} bg="secondary">
       <Card.Img variant="top" src={eventThumbnail} />
       <Card.Body>
         <Card.Title>{eventName}</Card.Title>

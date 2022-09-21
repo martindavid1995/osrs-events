@@ -33,7 +33,7 @@ export default function ApplicationSlice({
   }
 
   return (
-    <Card className="m-2">
+    <Card className="m-2" bg="secondary">
       <Card.Title className="m-2">Pending request to join community</Card.Title>
       <Card.Body>
         <Row>

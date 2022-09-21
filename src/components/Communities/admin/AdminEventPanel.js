@@ -14,20 +14,17 @@ export default function AdminEventPanel() {
       const q = query(
         collection(db, "events"),
         where("communitiesInvolved", "array-contains", communityID),
-        where("status", "in", ["creating", "registering", "live"])
+        where("status", "in", ["creating", "registering", "live", "pending"])
       );
       const comDocSnap = await getDocs(q);
       var events = [];
       comDocSnap.forEach((doc) => {
-        // var bothComs = doc.data().communitiesInvolved;
-        // var otherCommunity =
-        //   communityID === bothComs[0] ? bothComs[1] : bothComs[0];
         events.push({
-          // otherCommunityID: otherCommunity,
           communitiesInvolved: doc.data().communitiesInvolved,
           eventType: doc.data().gametype,
           eventStatus: doc.data().status,
-          eventTitle: doc.data().eventName
+          eventTitle: doc.data().eventName,
+          eventID: doc.id
         });
       });
       setEvents(events);
@@ -42,16 +39,13 @@ export default function AdminEventPanel() {
         {events.map((event, index) => (
           <EventSlice
             key={
-              event.otherCommunityID +
-              index +
-              event.eventType +
-              event.eventStatus
+                 index + event.eventTitle
             }
             eventType={event.eventType}
             communitiesInvolved={event.communitiesInvolved}
-            // otherCommunity={event.otherCommunityID}
             eventTitle={event.eventTitle}
             status={event.eventStatus}
+            eventID={event.eventID}
           />
         ))}
       </Card.Body>

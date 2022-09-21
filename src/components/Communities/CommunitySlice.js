@@ -37,7 +37,7 @@ export default function CommunitySlice({ communityID }) {
   }
 
   return (
-    <Card className="m-2">
+    <Card className="m-2" bg="secondary">
       <Card.Body>
         <Row className="pb-2">
           <Col className="col-4 text-center">
