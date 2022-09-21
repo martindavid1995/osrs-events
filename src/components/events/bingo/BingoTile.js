@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import SearchResults from "../../search/SearchResults";
 
-export default function BingoTile({ bingoID, idx }) {
+export default function BingoTile({ bingoID, idx, creating }) {
   const [show, setShow] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -92,85 +92,107 @@ export default function BingoTile({ bingoID, idx }) {
       });
   }
 
-  return (
-    <div className="child">
-      <Card style={{ height: "120px", width: "120px" }} onClick={handleShow}>
-        <Card.Body>
-          <Image className="rounded mx-auto d-block" src={currImg} width={80} height={80}></Image>
-        </Card.Body>
-      </Card>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Tile {idx + 1}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Card
-            style={{ height: "120px", width: "120px" }}
-          >
-            <Card.Body>
-              <Image 
-              className="rounded mx-auto d-block"
-              src={tempImg} 
-              onError={() => 
-                {
-                  if (tempImg !== "" && errored === false){
-                    setErrored(true)
-                    setTempImg(tempImg.slice(0, -4) + "_animated.gif")
+  if (creating){
+    return (
+      <div className="child">
+        <Card style={{ height: "120px", width: "120px" }} onClick={handleShow}>
+          <Card.Body>
+            <Image className="rounded mx-auto d-block" src={currImg} width={80} height={80}></Image>
+          </Card.Body>
+        </Card>
+  
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Tile {idx + 1}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Card
+              style={{ height: "120px", width: "120px" }}
+            >
+              <Card.Body>
+                <Image 
+                className="rounded mx-auto d-block"
+                src={tempImg} 
+                onError={() => 
+                  {
+                    if (tempImg !== "" && errored === false){
+                      setErrored(true)
+                      setTempImg(tempImg.slice(0, -4) + "_animated.gif")
+                    }
                   }
                 }
-              }
-              width={80} 
-              height={80}>
-              </Image>
-            </Card.Body>
-          </Card>
-          <Form onSubmit={sendUpdate}>
-            <Form.Group className="mb-3" controlId="tile_input.item_name">
-              <Form.Label>Tile Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder=""
-                ref={itemRef}
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="tile_input.description">
-              <Form.Label>Tile Description Text (Optional)</Form.Label>
-              <Form.Control as="textarea" rows={2} ref={descriptionRef} />
-              <Form.Text className="text-muted">
-                This is a good place to let people know if there are specific
-                rules or exclusions for this tile. Description will be viewable
-                on tile hover-over.
-              </Form.Text>
-            </Form.Group>
-
-            <Form.Group id="search">
-              <Form.Label>Tile Image</Form.Label>
-              <Form.Control
-                className="mb-3"
-                ref={searchRef}
-                type="text"
-                defaultValue={""}
-                onChange={(event) => {
-                  doSearch(
-                    event.target.value.replaceAll(" ", "_").toLowerCase()
-                  );
-                }}
-              />
-            </Form.Group>
-
-            <SearchResults results={results} getSelection={getSelection} />
-
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </div>
-  );
+                width={80} 
+                height={80}>
+                </Image>
+              </Card.Body>
+            </Card>
+            <Form onSubmit={sendUpdate}>
+              <Form.Group className="mb-3" controlId="tile_input.item_name">
+                <Form.Label>Tile Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder=""
+                  ref={itemRef}
+                  autoFocus
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="tile_input.description">
+                <Form.Label>Tile Description Text (Optional)</Form.Label>
+                <Form.Control as="textarea" rows={2} ref={descriptionRef} />
+                <Form.Text className="text-muted">
+                  This is a good place to let people know if there are specific
+                  rules or exclusions for this tile. Description will be viewable
+                  on tile hover-over.
+                </Form.Text>
+              </Form.Group>
+  
+              <Form.Group id="search">
+                <Form.Label>Tile Image</Form.Label>
+                <Form.Control
+                  className="mb-3"
+                  ref={searchRef}
+                  type="text"
+                  defaultValue={""}
+                  onChange={(event) => {
+                    doSearch(
+                      event.target.value.replaceAll(" ", "_").toLowerCase()
+                    );
+                  }}
+                />
+              </Form.Group>
+  
+              <SearchResults results={results} getSelection={getSelection} />
+  
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Save Changes
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </div>
+    );
+  } else {
+    return (
+      <div className="child">
+        <Card style={{ height: "120px", width: "120px" }} onClick={handleShow}>
+          <Card.Body>
+            <Image className="rounded mx-auto d-block" src={currImg} width={80} height={80}></Image>
+          </Card.Body>
+        </Card>
+  
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Submit Tile {idx + 1}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Submission section
+          </Modal.Body>
+        </Modal>
+      </div>
+    );
+  }
+ 
 }

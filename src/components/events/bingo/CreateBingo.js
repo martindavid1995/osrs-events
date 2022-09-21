@@ -76,7 +76,7 @@ export default function CreateBingo() {
       <>
         <Row><Col><h1 className="text-center">Create A Bingo Game</h1></Col></Row>
         <Row><Col><h6 className="text-center text-muted">Click a tile to set it's contents</h6></Col></Row>
-        <BingoBoard />
+        <BingoBoard creation={true}/>
       </>
     );
   }

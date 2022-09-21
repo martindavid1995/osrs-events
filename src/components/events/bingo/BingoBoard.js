@@ -6,7 +6,7 @@ import { db } from "../../../firebase";
 import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
-export default function BingoBoard() {
+export default function BingoBoard({creation}) {
   const [items, setItems] = useState(["N/A"]);
   const [loading, setLoading] = useState(false);
   const [bingoID, setBingoID] = useState(null);
@@ -66,6 +66,7 @@ export default function BingoBoard() {
             text={item.text}
             idx={index}
             imgURL={item.image}
+            creating={creation}
           />
         ))}
       </Container>
