@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import { useCommunity } from "../../contexts/CommunityContext";
 import { useEvent } from "../../contexts/EventContext";
 import { useInvitation } from "../../contexts/InvitationContext";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import { db } from "../../firebase";
+import { getDoc, doc, onSnapshot } from "firebase/firestore";
 
 export default function EventInvitationSlice({
   eventID,
@@ -14,13 +17,43 @@ export default function EventInvitationSlice({
   communityBID,
   internalNavURL,
 }) {
-  const { setEventStatus } = useEvent();
+  const { setEventStatus, addPlayerInvolved } = useEvent();
   const { setInvitationStatus } = useInvitation();
   const { rejectInvitation } = useCommunity();
   const navigate = useNavigate();
+  const [playersInvolved, setPlayersInvolved] = useState([]);
+  const auth = getAuth();
+  const eventDocRef = doc(db, "events", eventID);
+
+  useEffect(() => {
+    async function fetchData() {
+      const eventDocSnap = await getDoc(eventDocRef);
+      if (eventDocSnap.exists()) {
+        setPlayersInvolved(eventDocSnap.data().playersInvolved)
+      }
+    }
+    fetchData();
+  }, []);
+
+  function getNewPlayers(){
+    var newPlayers = [];
+    for (var i = 0; i < playersInvolved.length; i++){
+      if (playersInvolved[i].community === communityBID){
+       newPlayers[i] = {
+        admins: [auth.currentUser.uid],
+        community: communityBID,
+        players: []
+       }
+      }else{
+        newPlayers[i] = playersInvolved[i]
+      }
+    }
+    return newPlayers;
+  }
 
   async function handleAccept() {
     await setInvitationStatus(inviteID, "closed");
+    await addPlayerInvolved(eventID, getNewPlayers());
     setReload((s) => !s);
     navigate(internalNavURL);
   }

@@ -43,10 +43,18 @@ export function EventProvider({ children }) {
     });
   }
 
+  function addPlayerInvolved(eventID, playersInvolved){
+    const eventRef = doc(db, "events", eventID);
+    return updateDoc(eventRef, {
+      playersInvolved: playersInvolved
+    })
+  }
+
   const value = {
     createEvent,
     setEventStatus,
     setEventGameID,
+    addPlayerInvolved
   };
 
   return (

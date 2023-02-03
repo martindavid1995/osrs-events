@@ -178,7 +178,7 @@ export default function MemberList({ admin }) {
                   </Row>
                 </ListGroupItem>
               ))}
-            {/* filter out the admins from the admin list so that they don't appear twice */}
+            {/* filter out the admins from the admin list so that they don't appear twice*/}
             {members
               .filter(function (val) {
                 return admins.indexOf(val) === -1;

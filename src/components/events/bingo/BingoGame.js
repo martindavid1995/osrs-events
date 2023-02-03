@@ -6,7 +6,6 @@ export default function BingoGame() {
     //pass in onclick function to submit
     <div>
       <h3>Bingo</h3>
-
       <BingoBoard creation={false}/>
     </div>
   );
