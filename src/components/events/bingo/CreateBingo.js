@@ -7,7 +7,7 @@ import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
 import BingoBoard from "./BingoBoard";
-import { Row, Col, Button, Card, Badge } from "react-bootstrap";
+import { Row, Col, Button, Card, Badge, Modal } from "react-bootstrap";
 
 export default function CreateBingo() {
   const auth = getAuth();
@@ -24,6 +24,9 @@ export default function CreateBingo() {
   const [readyStatus, setReadyStatus] = useState([false, false]);
   const [myTeam, setMyTeam] = useState();
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     setLoading(true);
@@ -31,8 +34,11 @@ export default function CreateBingo() {
       if (eventID !== null) {
         const eDocRef = doc(db, "events", eventID);
         const unsub = onSnapshot(eDocRef, (doc) => {
-          // console.log(doc.data().items)
           setReadyStatus(doc.data().readyUpStatus);
+          if (doc.data().status === "registering"){
+            console.log("Game should now be starting for all parties")
+            handleShow();
+          } 
         });
         setLoading(false);
       }
@@ -94,6 +100,10 @@ export default function CreateBingo() {
     makeGame();
   }, [challengerID, challengeeID]);
 
+  function navDash() {
+    navigate("/");
+  }
+
   async function setReady() {
     if (myTeam === challengerID){
       if (readyStatus[0] == true){
@@ -110,7 +120,7 @@ export default function CreateBingo() {
     }
     await readyUpTeam(eventID, readyStatus)
     if (readyStatus[0] === true && readyStatus[1] === true){
-      console.log("BOTH TEAMS READY, GAME STATUS GETS SET TO REGISTERING")
+      await setEventStatus(eventID, "registering");
     }
   }
 
@@ -123,6 +133,18 @@ export default function CreateBingo() {
   } else {
     return (
       <>
+
+    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+        <Modal.Header>
+          <Modal.Title>Registration Phase</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>The game has been accepted by both parties and has moved into the registration phase. Members of your community can now see the game broadcasted, and can apply to join your team on the community page. </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={navDash}>
+            Return to Dashboard
+          </Button>
+        </Modal.Footer>
+      </Modal>
         <Row>
           <Col>
             <h1 className="text-center">Create A Bingo Game</h1>
