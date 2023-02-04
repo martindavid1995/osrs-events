@@ -1,4 +1,5 @@
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,11 +7,13 @@ import { useInvitation } from "../../../contexts/InvitationContext";
 import { useBingo } from "../../../contexts/BingoContext";
 import { useEvent } from "../../../contexts/EventContext";
 import BingoBoard from "./BingoBoard";
-import { Row, Col, Button, Card } from "react-bootstrap";
+import { Row, Col, Button, Card, Badge } from "react-bootstrap";
 
 export default function CreateBingo() {
+  const auth = getAuth();
   const { closeInvitation } = useInvitation();
-  const { setEventStatus, setEventGameID } = useEvent();
+  const { setEventStatus, setEventGameID, readyUpTeam } = useEvent();
+  const [admins, setAdmins] = useState();
   const { createBingo } = useBingo();
   const [loading, setLoading] = useState(false);
   const eventID = useParams().eventID;
@@ -18,8 +21,24 @@ export default function CreateBingo() {
   const [challengerID, setChallengerID] = useState();
   const [challengeeID, setChallengeeID] = useState();
   const [eventName, setEventName] = useState();
-  const [admins, setAdmins] = useState([])
+  const [readyStatus, setReadyStatus] = useState([false, false]);
+  const [myTeam, setMyTeam] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoading(true);
+    async function fetchData() {
+      if (eventID !== null) {
+        const eDocRef = doc(db, "events", eventID);
+        const unsub = onSnapshot(eDocRef, (doc) => {
+          // console.log(doc.data().items)
+          setReadyStatus(doc.data().readyUpStatus);
+        });
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [eventID]);
 
   useEffect(() => {
     setLoading(true);
@@ -29,7 +48,12 @@ export default function CreateBingo() {
         setChallengerID(eventDocSnap.data().communitiesInvolved[0]);
         setChallengeeID(eventDocSnap.data().communitiesInvolved[1]);
         setEventName(eventDocSnap.data().eventName);
-        setAdmins(eventDocSnap.data().playersInvolved)
+        setAdmins(eventDocSnap.data().playersInvolved);
+        if (eventDocSnap.data().playersInvolved[0].admins.includes(auth.currentUser.uid)){
+          setMyTeam(eventDocSnap.data().playersInvolved[0].community)
+        } else  if (eventDocSnap.data().playersInvolved[1].admins.includes(auth.currentUser.uid)){
+          setMyTeam(eventDocSnap.data().playersInvolved[1].community)
+        }
       }
       setLoading(false);
     }
@@ -70,11 +94,24 @@ export default function CreateBingo() {
     makeGame();
   }, [challengerID, challengeeID]);
 
-  function getAdmins(){
-    var names = []
-    // names.push(admins[0].admins[0])
-    // names.push(admins[1].admins[0])
-    // console.log(names)
+  async function setReady() {
+    if (myTeam === challengerID){
+      if (readyStatus[0] == true){
+        readyStatus[0] = false
+      } else {
+        readyStatus[0] = true
+      }
+    } else {
+      if (readyStatus[1] == true){
+        readyStatus[1] = false
+      } else {
+        readyStatus[1] = true
+      }
+    }
+    await readyUpTeam(eventID, readyStatus)
+    if (readyStatus[0] === true && readyStatus[1] === true){
+      console.log("BOTH TEAMS READY, GAME STATUS GETS SET TO REGISTERING")
+    }
   }
 
   if (loading) {
@@ -104,19 +141,29 @@ export default function CreateBingo() {
               <Card.Title className="mx-auto">Game Information</Card.Title>
               <Card.Body>
                 <Row>
-                  <Col><h6>Event Name: {eventName}</h6></Col>
+                  <Col>
+                    <h6>Event Name: {eventName}</h6>
+                  </Col>
                 </Row>
                 <Row>
-                  <Col><h6>Administrators: ...</h6></Col>
+                  <Col>
+                    <h6>Administrators: ...</h6>
+                  </Col>
                 </Row>
                 <Row>
-                  <Col><h6>Prize Pool: ...</h6></Col>
+                  <Col>
+                    <h6>Prize Pool: ...</h6>
+                  </Col>
                 </Row>
                 <Row>
-                  <Col><h6>Game Length: ...</h6></Col>
+                  <Col>
+                    <h6>Game Length: ...</h6>
+                  </Col>
                 </Row>
               </Card.Body>
-              <Card.Footer>Bingo game customization features to come in future versions</Card.Footer>
+              <Card.Footer>
+                Bingo game customization features to come in future versions
+              </Card.Footer>
             </Card>
           </Col>
           <Col>
@@ -125,7 +172,29 @@ export default function CreateBingo() {
           <Col>
             <Card>
               <Card.Title className="mx-auto">Control Panel</Card.Title>
-              <Card.Body>Control Panel</Card.Body>
+              <Card.Body>
+                <Row>
+                  <Col>
+                      {challengerID}: <Badge bg={readyStatus[0] ? "success" : "danger"}>{readyStatus[0] ? "Ready" : "Not Ready"}</Badge>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                      {challengeeID}: <Badge bg={readyStatus[1] ? "success" : "danger"}>{readyStatus[1] ? "Ready" : "Not Ready"}</Badge>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      className="m-1"
+                      onClick={setReady}
+                    >
+                      Accept Rules/Ready Up
+                    </Button>
+                  </Col>
+                </Row>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

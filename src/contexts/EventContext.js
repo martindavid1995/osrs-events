@@ -18,12 +18,13 @@ export function useEvent() {
 }
 
 export function EventProvider({ children }) {
-  function createEvent(gametype, status, communitiesInvolved, playersInvolved, eventName) {
+  function createEvent(gametype, status, communitiesInvolved, readyUpStatus, playersInvolved, eventName) {
     return addDoc(collection(db, "events"), {
       gametype: gametype,
       status: status,
       gameID: null,
       communitiesInvolved: communitiesInvolved,
+      readyUpStatus: readyUpStatus, 
       playersInvolved: playersInvolved,
       eventName: eventName
     });
@@ -50,11 +51,19 @@ export function EventProvider({ children }) {
     })
   }
 
+  function readyUpTeam(eventID, newStatus){
+    const eventRef = doc(db, "events", eventID);
+    return updateDoc(eventRef, {
+      readyUpStatus: newStatus
+    })
+  }
+
   const value = {
     createEvent,
     setEventStatus,
     setEventGameID,
-    addPlayerInvolved
+    addPlayerInvolved,
+    readyUpTeam
   };
 
   return (

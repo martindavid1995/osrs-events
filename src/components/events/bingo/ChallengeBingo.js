@@ -65,6 +65,7 @@ export default function ChallengeBingo() {
       } else {
         setError();
         const communitiesInvolved = [challengerID, challengeeID];
+        const readyUpStatus = [false, false]
         const playersInvolved = [
           {
             community: challengerID,
@@ -81,6 +82,7 @@ export default function ChallengeBingo() {
           "bingo",
           "pending",
           communitiesInvolved,
+          readyUpStatus,
           playersInvolved,
           gameTitleRef.current.value
         );
