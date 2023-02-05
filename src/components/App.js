@@ -111,7 +111,7 @@ function App() {
                             element={<CreateBingo />}
                           />
                           <Route
-                            path="/events/:bingoID"
+                            path="/events/bingo/:eventID"
                             element={<BingoGame />}
                           />
                           <Route path="/search" element={<SpriteSearch />} />

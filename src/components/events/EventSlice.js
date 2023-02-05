@@ -10,11 +10,15 @@ export default function EventSlice({
 }) {
 
   function getButtonLink(){
-    if (status === "creating"){
-      return "/events/create/"+eventID
-    } else if (status === "live"){
-      return "/events/"+eventID
-    } else return ""
+    if (eventType == "bingo"){
+      if (status === "creating"){
+        return "/events/create/"+eventID
+      } else if (status === "live" || status === "registering"){
+        return "/events/bingo/"+eventID
+      } else return ""
+    } else {
+      return ""
+    }
   }
 
   function getButtonText(){

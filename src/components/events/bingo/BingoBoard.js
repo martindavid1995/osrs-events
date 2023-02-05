@@ -38,7 +38,6 @@ export default function BingoBoard({creation}) {
       if (bingoID !== null) {
         const bingoDocRef = doc(db, "bingo", bingoID);
         const unsub = onSnapshot(bingoDocRef, (doc) => {
-          // console.log(doc.data().items)
           setItems(doc.data().items);
         });
         setLoading(false);

@@ -68,6 +68,7 @@ export default function CreateBingo() {
 
   useEffect(() => {
     async function makeGame() {
+      console.log(eventID)
       setLoading(true);
       if (challengerID !== undefined && challengeeID !== undefined) {
         try {
@@ -83,8 +84,9 @@ export default function CreateBingo() {
                 text: "Empty Tile",
                 image:
                   "https://oldschool.runescape.wiki/images/Bank_filler_detail.png",
-                description: "",
-              })
+                description: ""
+              }),
+              eventID
             );
             await setEventStatus(eventID, "creating");
             await setEventGameID(eventID, bingoRef.id);
