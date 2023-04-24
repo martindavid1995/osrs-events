@@ -72,7 +72,7 @@ export default function CreateCommunity() {
         descriptionRef.current.value,
         auth.currentUser.uid,
         username,
-        "tempURL"
+        "https://via.placeholder.com/110"
       );
       await subscribeUserToCommunity(
         nameRef.current.value,

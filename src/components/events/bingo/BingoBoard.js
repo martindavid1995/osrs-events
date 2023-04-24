@@ -32,19 +32,23 @@ export default function BingoBoard({creation}) {
     fetchData();
   }, []);
 
+
+  // Handles listening for tile changes to force rerender on all clients
   useEffect(() => {
     setLoading(true);
     async function fetchData() {
       if (bingoID !== null) {
-        const bingoDocRef = doc(db, "bingo", bingoID);
-        const unsub = onSnapshot(bingoDocRef, (doc) => {
-          setItems(doc.data().items);
+        const bingoDocRef = doc(db, "bingo", bingoID); // Create a reference to the document for this game
+        const unsub = onSnapshot(bingoDocRef, (doc) => {  // If you detect a change in the document
+          setItems(doc.data().items); //Reset the state of the items to re-render them out on the board
         });
         setLoading(false);
       }
     }
     fetchData();
-  }, [bingoID]);
+  }, [bingoID]); //Rerender on a change in bingoID because page may be loaded before bingoID is set by other useEffect()
+
+
 
   if (loading || bingoID === null) {
     return (
