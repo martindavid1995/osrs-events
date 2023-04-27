@@ -9,7 +9,7 @@ import { doc, getDoc } from "firebase/firestore";
 export default function UpdateAccountInfo() {
   const usernameRef = useRef(null);
   const aboutRef = useRef(null);
-  const { updateUserInformation } = useUser();
+  const { updateDescription } = useUser();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function UpdateAccountInfo() {
     try {
       setError("");
       setLoading(true);
-      await updateUserInformation(username, aboutRef.current.value);
+      await updateDescription(auth.currentUser.uid, aboutRef.current.value);
       navigate("/");
     } catch (error) {
       console.log(error);

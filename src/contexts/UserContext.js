@@ -22,7 +22,7 @@ export function UserProvider({ children }) {
       user: username,
       description: info,
       imgURL: "placeholder",
-      memberOf: [],
+      memberOf: [], //needs to set current values of what they are now
       adminOf: [],
       enrolledEvents: [],
     });
@@ -56,12 +56,20 @@ export function UserProvider({ children }) {
     });
   }
 
+  function updateDescription(userID, newDescription) {
+    const userRef = doc(db, "users", userID);
+    return updateDoc(userRef, {
+      description: newDescription
+    })
+  }
+
   const value = {
     updateUserInformation,
     subscribeUserToCommunity,
     unsubscribeUserFromCommunity,
     grantAdminPrivelages,
     removeAdminPrivelages,
+    updateDescription
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
